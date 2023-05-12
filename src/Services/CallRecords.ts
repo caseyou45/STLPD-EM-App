@@ -22,7 +22,7 @@ async function convertResponseDateToDom() {
   for (const row of tableRows) {
     const tableCol = $(row).find("td");
 
-    const datetime: string = $(tableCol[0]).text();
+    const datetime: Date = new Date($(tableCol[0]).text());
     const eventID: string = $(tableCol[1]).text();
     const location: string = $(tableCol[2]).text();
     const type: string = $(tableCol[3]).text();
@@ -37,6 +37,8 @@ async function convertResponseDateToDom() {
 }
 
 export async function startCallRecording() {
-  fetchPage();
-  convertResponseDateToDom();
+  setInterval(() => {
+    convertResponseDateToDom();
+  }, 3000);
 }
+//

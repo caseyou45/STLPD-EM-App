@@ -25,7 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = __importStar(require("mongoose"));
 const CallSchema = new mongoose.Schema({
-    datetime: { type: String },
+    datetime: { type: Date },
     eventID: { type: String },
     location: { type: String },
     type: { type: String },

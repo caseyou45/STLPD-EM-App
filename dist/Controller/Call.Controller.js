@@ -13,35 +13,50 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Call_1 = __importDefault(require("../Models/Call"));
-function SaveCall({ datetime, eventID, location, type, }) {
-    return __awaiter(this, void 0, void 0, function* () {
-        Call_1.default.findOne({ eventID: eventID }).then((res) => {
-            if (res) {
-                console.log("alareadyu");
-            }
-            else {
-                Call_1.default.create({
-                    datetime,
-                    eventID,
-                    location,
-                    type,
-                })
-                    .then((data) => {
-                    return data;
-                })
-                    .catch((error) => {
-                    throw error;
-                });
-            }
+const ParseQuery_1 = require("../Services/ParseQuery");
+class Call {
+    static getAll(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const calls = yield Call_1.default.find({}).catch((error) => {
+                return res.json({ error: error });
+            });
+            return res.json({
+                calls: calls,
+            });
         });
-    });
-}
-function GetAll() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const calls = yield Call_1.default.find({}).catch((error) => {
-            throw error;
+    }
+    static getByDate(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let query = {};
+            if (req.query.hasOwnProperty("dateStart") ||
+                req.query.hasOwnProperty("dateEnd")) {
+                (0, ParseQuery_1.parseForDate)(req, query);
+            }
+            const calls = yield Call_1.default.find(query).catch((error) => {
+                return res.json({ error: error });
+            });
+            return res.json({
+                calls: calls,
+            });
         });
-        return calls;
-    });
+    }
+    static SaveCall({ 
+    //
+    datetime, eventID, location, type, }) {
+        return __awaiter(this, void 0, void 0, function* () {
+            Call_1.default.findOne({ eventID: eventID }).then((res) => {
+                if (!res) {
+                    Call_1.default.create({
+                        datetime,
+                        eventID,
+                        location,
+                        type,
+                    }).catch((error) => {
+                        throw error;
+                    });
+                }
+            }); //
+        });
+    }
 }
-exports.default = { SaveCall, GetAll };
+exports.default = Call;

@@ -1,39 +1,56 @@
 import { ICall } from "../Models/Call";
-import Call from "../Models/Call";
+import CallModel from "../Models/Call";
+import { Request, Response } from "express";
+import { ICreateCallInput } from "../Models/Call";
+import { parseForDate } from "../Services/ParseQuery";
 
-interface ICreateCallInput {
-  datetime: ICall["datetime"];
-  eventID: ICall["eventID"];
-  location: ICall["location"];
-  type: ICall["type"];
-}
+class Call {
+  public static async getAll(req: Request, res: Response) {
+    const calls = await CallModel.find({}).catch((error: Error) => {
+      return res.json({ error: error });
+    });
+    return res.json({
+      calls: calls,
+    });
+  }
 
-async function SaveCall({
-  datetime,
-  eventID,
-  location,
-  type,
-}: ICreateCallInput): Promise<ICall[] | void> {
-  Call.findOne({ eventID: eventID }).then((res) => {
-    if (!res) {
-      Call.create({
-        datetime,
-        eventID,
-        location,
-        type,
-      }).catch((error: Error) => {
-        throw error;
-      });
+  public static async getByDate(req: Request, res: Response) {
+    let query = {};
+
+    if (
+      req.query.hasOwnProperty("dateStart") ||
+      req.query.hasOwnProperty("dateEnd")
+    ) {
+      parseForDate(req, query);
     }
-  });
+
+    const calls = await CallModel.find(query).catch((error: Error) => {
+      return res.json({ error: error });
+    });
+    return res.json({
+      calls: calls,
+    });
+  }
+
+  public static async SaveCall({
+    //
+    datetime,
+    eventID,
+    location,
+    type,
+  }: ICreateCallInput): Promise<ICall[] | void> {
+    CallModel.findOne({ eventID: eventID }).then((res) => {
+      if (!res) {
+        CallModel.create({
+          datetime,
+          eventID,
+          location,
+          type,
+        }).catch((error: Error) => {
+          throw error;
+        });
+      }
+    }); //
+  }
 }
-
-async function GetAll(): Promise<ICall[] | void> {
-  const calls = await Call.find({}).catch((error: Error) => {
-    throw error;
-  });
-
-  return calls;
-}
-
-export default { SaveCall, GetAll };
+export default Call;

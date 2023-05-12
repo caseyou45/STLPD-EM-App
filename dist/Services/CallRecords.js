@@ -54,7 +54,7 @@ function convertResponseDateToDom() {
         const tableRows = $("tr");
         for (const row of tableRows) {
             const tableCol = $(row).find("td");
-            const datetime = $(tableCol[0]).text();
+            const datetime = new Date($(tableCol[0]).text());
             const eventID = $(tableCol[1]).text();
             const location = $(tableCol[2]).text();
             const type = $(tableCol[3]).text();
@@ -69,9 +69,10 @@ function convertResponseDateToDom() {
 }
 function startCallRecording() {
     return __awaiter(this, void 0, void 0, function* () {
-        fetchPage();
-        convertResponseDateToDom();
-        const calls = yield Call_Controller_1.default.GetAll();
+        setInterval(() => {
+            convertResponseDateToDom();
+        }, 3000);
     });
 }
 exports.startCallRecording = startCallRecording;
+//
