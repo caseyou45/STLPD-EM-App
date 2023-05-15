@@ -13,8 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getByURLQuery = exports.getAll = exports.saveCall = void 0;
-const call_1 = __importDefault(require("../models/call"));
-const parse_1 = __importDefault(require("../services/parse"));
+const call_1 = __importDefault(require("../../models/call"));
+const parse_1 = __importDefault(require("../../services/parse"));
 // async function getAll(req: Request, res: Response) {
 //   const calls = await CallModel.find({}).catch((error: Error) => {
 //     return res.json({ error: error });
@@ -23,7 +23,7 @@ const parse_1 = __importDefault(require("../services/parse"));
 //     calls: calls,
 //   });
 // }
-function getAll() {
+function getAll(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const calls = yield call_1.default.find({}).catch((error) => {
             return error;
@@ -37,11 +37,9 @@ function getByURLQuery(req, res) {
         const query = {};
         (0, parse_1.default)(req, query);
         const calls = yield call_1.default.find(query).catch((error) => {
-            return res.json({ error: error });
+            return error;
         });
-        return res.json({
-            calls: calls,
-        });
+        return calls;
     });
 }
 exports.getByURLQuery = getByURLQuery;

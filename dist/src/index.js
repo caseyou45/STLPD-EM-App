@@ -31,6 +31,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const mongoose = __importStar(require("mongoose"));
 const scrape_1 = __importDefault(require("./services/scrape"));
 const call_1 = __importDefault(require("./routes/call"));
+const index_1 = __importDefault(require("./controller/index"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
@@ -38,6 +39,8 @@ const mongo = process.env.MONGO_URI;
 // convertResponseDateToDom();
 mongoose.connect(`${mongo}`);
 (0, scrape_1.default)();
+app.set("view engine", "pug");
+app.use("/", index_1.default);
 app.use("/api/calls", call_1.default);
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is runn ing at http://localhost:${port}`);

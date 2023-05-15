@@ -1,7 +1,7 @@
 import * as cheerio from "cheerio";
 import axios from "axios";
 import dotenv from "dotenv";
-import { saveCall } from "../controller/call";
+import { saveCall } from "../controller/api/call";
 
 dotenv.config();
 

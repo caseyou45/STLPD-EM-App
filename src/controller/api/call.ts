@@ -1,29 +1,37 @@
-import { ICall } from "../models/call";
-import CallModel from "../models/call";
+import { ICall } from "../../models/call";
+import CallModel from "../../models/call";
 import { Request, Response } from "express";
-import { ICreateCallInput } from "../models/call";
-import parseQueryFromURL from "../services/parse";
+import { ICreateCallInput } from "../../models/call";
+import parseQueryFromURL from "../../services/parse";
 
-async function getAll(req: Request, res: Response) {
+// async function getAll(req: Request, res: Response) {
+//   const calls = await CallModel.find({}).catch((error: Error) => {
+//     return res.json({ error: error });
+//   });
+//   return res.json({
+//     calls: calls,
+//   });
+// }
+
+async function getAll(req: Request, res: Response): Promise<ICall[] | Error> {
   const calls = await CallModel.find({}).catch((error: Error) => {
-    return res.json({ error: error });
+    return error;
   });
-  return res.json({
-    calls: calls,
-  });
+  return calls;
 }
 
-async function getByURLQuery(req: Request, res: Response) {
+async function getByURLQuery(
+  req: Request,
+  res: Response
+): Promise<ICall[] | Error> {
   const query: any = {};
 
   parseQueryFromURL(req, query);
 
   const calls = await CallModel.find(query).catch((error: Error) => {
-    return res.json({ error: error });
+    return error;
   });
-  return res.json({
-    calls: calls,
-  });
+  return calls;
 }
 
 async function saveCall({
