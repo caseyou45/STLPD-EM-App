@@ -3,7 +3,8 @@ import dotenv from "dotenv";
 import * as mongoose from "mongoose";
 import startCallRecording from "./services/scrape";
 import CallRouter from "./routes/call";
-
+import * as CallController from "./controller/api/call";
+import IndexRouter from "./controller/index";
 dotenv.config();
 
 const app: Express = express();
@@ -16,6 +17,9 @@ mongoose.connect(`${mongo}`);
 
 startCallRecording();
 
+app.set("view engine", "pug");
+
+app.use("/", IndexRouter);
 app.use("/api/calls", CallRouter);
 
 app.listen(port, () => {
