@@ -1,8 +1,7 @@
 import * as cheerio from "cheerio";
 import axios from "axios";
 import dotenv from "dotenv";
-import CallController from "../Controller/Call.Controller";
-import Call, { ICall } from "../Models/Call";
+import { saveCall } from "../controller/call";
 
 dotenv.config();
 
@@ -27,7 +26,7 @@ async function convertResponseDateToDom() {
     const location: string = $(tableCol[2]).text();
     const type: string = $(tableCol[3]).text();
 
-    await CallController.SaveCall({
+    await saveCall({
       datetime,
       eventID,
       location,
@@ -36,9 +35,10 @@ async function convertResponseDateToDom() {
   }
 }
 
-export async function startCallRecording() {
+async function startCallRecording() {
   setInterval(() => {
     convertResponseDateToDom();
   }, 3000);
 }
-//
+
+export default startCallRecording;

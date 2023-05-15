@@ -35,11 +35,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.startCallRecording = void 0;
 const cheerio = __importStar(require("cheerio"));
 const axios_1 = __importDefault(require("axios"));
 const dotenv_1 = __importDefault(require("dotenv"));
-const Call_Controller_1 = __importDefault(require("../Controller/Call.Controller"));
+const call_1 = require("../controller/call");
 dotenv_1.default.config();
 function fetchPage() {
     const data = axios_1.default.get(`${process.env.PD_URL}`).then((res) => {
@@ -58,7 +57,7 @@ function convertResponseDateToDom() {
             const eventID = $(tableCol[1]).text();
             const location = $(tableCol[2]).text();
             const type = $(tableCol[3]).text();
-            yield Call_Controller_1.default.SaveCall({
+            yield (0, call_1.saveCall)({
                 datetime,
                 eventID,
                 location,
@@ -74,5 +73,4 @@ function startCallRecording() {
         }, 3000);
     });
 }
-exports.startCallRecording = startCallRecording;
-//
+exports.default = startCallRecording;

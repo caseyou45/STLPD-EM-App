@@ -1,7 +1,6 @@
-import CallController from "./Call.Controller";
 import * as mongoose from "mongoose";
 import dotenv from "dotenv";
-import { ICall } from "../Models/Call";
+import { ICall } from "../src/models/call";
 dotenv.config();
 const mongo = process.env.MONGO_URI;
 

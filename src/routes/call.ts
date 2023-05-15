@@ -1,10 +1,9 @@
 import { Router } from "express";
 
-import CallController from "../Controller/Call.Controller";
-
+import { getByURLQuery } from "../controller/call";
 const router = Router();
 
 // router.get("/all", CallController.getAll);
-router.get("/", CallController.getByDate);
+router.get("/", getByURLQuery);
 
 export default router;

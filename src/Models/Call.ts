@@ -1,13 +1,13 @@
 import * as mongoose from "mongoose";
 
-export interface ICall {
+interface ICall {
   datetime: Date;
   eventID: string;
   location: string;
   type: string;
 }
 
-export interface ICreateCallInput {
+interface ICreateCallInput {
   datetime: ICall["datetime"];
   eventID: ICall["eventID"];
   location: ICall["location"];
@@ -23,4 +23,4 @@ const CallSchema = new mongoose.Schema({
 
 const Call = mongoose.model<ICall>("Call", CallSchema);
 
-export default Call;
+export { Call as default, ICreateCallInput, ICall };

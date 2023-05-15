@@ -1,9 +1,8 @@
 import express, { Express, Request, Response, response } from "express";
 import dotenv from "dotenv";
 import * as mongoose from "mongoose";
-import * as CallRecords from "./Services/CallRecords";
-import CallController from "./Controller/Call.Controller";
-import CallRouter from "./Routes/Call.Router";
+import startCallRecording from "./services/scrape";
+import CallRouter from "./routes/call";
 
 dotenv.config();
 
@@ -15,7 +14,7 @@ const mongo = process.env.MONGO_URI;
 
 mongoose.connect(`${mongo}`);
 
-CallRecords.startCallRecording();
+startCallRecording();
 
 app.use("/api/calls", CallRouter);
 

@@ -23,6 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = void 0;
 const mongoose = __importStar(require("mongoose"));
 const CallSchema = new mongoose.Schema({
     datetime: { type: Date },
