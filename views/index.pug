@@ -1,8 +1,19 @@
 html
   head
+    style
+      include styles.css
     title= title
-  body
-    ul
-    for call in calls
-        li= call.type        
-        li= call.location
+    body 
+    main
+      for call in calls
+        div.card
+          p=call.datetime
+          div.type
+            span=call.type
+            span=call.typeCount
+
+          div.location
+            span=call.location
+            span=call.locationCount
+    script 
+      include index.js

@@ -37,21 +37,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = __importStar(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const call_1 = require("../src/controller/api/call");
+jest.useFakeTimers();
 dotenv_1.default.config();
 const mongo = process.env.MONGO_URI;
-beforeAll(() => __awaiter(void 0, void 0, void 0, function* () { return yield mongoose.connect(`${mongo}`); }));
 describe("Test Call Controller", () => {
-    // test("Get Calls from MogoDB", async () => {
-    //   const result = await CallController.GetAll();
-    //   expect(Array.isArray(result)).toBe(true);
-    // });
-    // test("Save Call from MogoDB", async () => {
-    //   const testCall: ICall = {
-    //     datetime: "datetime",
-    //     eventID: "eventID",
-    //     location: "location",
-    //     type: "type",
-    //   };
-    //   await CallController.SaveCall(testCall);
-    // });
+    let connection;
+    beforeAll(() => __awaiter(void 0, void 0, void 0, function* () { return (connection = yield mongoose.connect(`${mongo}`)); }));
+    afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
+        connection = yield connection.close();
+    }));
+    test("Get Calls from MogoDB", () => __awaiter(void 0, void 0, void 0, function* () {
+        const result = yield (0, call_1.getAll)();
+        expect(Array.isArray(result)).toBe(true);
+    }));
+    test("Save Call from MogoDB", () => __awaiter(void 0, void 0, void 0, function* () {
+        const testCall = {
+            datetime: new Date(),
+            eventID: "eventID",
+            location: "location",
+            type: "type",
+        };
+        yield (0, call_1.saveCall)(testCall);
+    }));
 });

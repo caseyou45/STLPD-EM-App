@@ -1,4 +1,4 @@
-import { ICall } from "../../models/call";
+import { ICall, ICallDTO } from "../../models/call";
 import CallModel from "../../models/call";
 import { Request, Response } from "express";
 import { ICreateCallInput } from "../../models/call";
@@ -13,7 +13,7 @@ import parseQueryFromURL from "../../services/parse";
 //   });
 // }
 
-async function getAll(req: Request, res: Response): Promise<ICall[] | Error> {
+async function getAll(): Promise<ICall[] | Error> {
   const calls = await CallModel.find({}).catch((error: Error) => {
     return error;
   });
@@ -23,15 +23,41 @@ async function getAll(req: Request, res: Response): Promise<ICall[] | Error> {
 async function getByURLQuery(
   req: Request,
   res: Response
-): Promise<ICall[] | Error> {
+): Promise<ICallDTO[] | Error> {
   const query: any = {};
 
   parseQueryFromURL(req, query);
 
-  const calls = await CallModel.find(query).catch((error: Error) => {
-    return error;
+  const calls: ICall[] | any = await CallModel.find(query).catch(
+    (error: Error) => {
+      return error;
+    }
+  );
+
+  const callsAsDTOs = createDTOs(calls);
+
+  return callsAsDTOs;
+}
+
+function createDTOs(calls: ICall[]): any {
+  const dtos: ICallDTO[] = [];
+
+  calls.forEach((call: ICall) => {
+    let dto: ICallDTO = {
+      datetime: call.datetime,
+      eventID: call.eventID,
+      location: call.location,
+      locationCount: calls.filter(
+        (obj: ICall) => obj.location === call.location
+      ).length,
+      type: call.type,
+      typeCount: calls.filter((obj: ICall) => obj.type === call.type).length,
+    };
+
+    dtos.push(dto);
   });
-  return calls;
+
+  return dtos;
 }
 
 async function saveCall({

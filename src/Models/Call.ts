@@ -7,6 +7,15 @@ interface ICall {
   type: string;
 }
 
+interface ICallDTO {
+  datetime: Date;
+  eventID: string;
+  location: string;
+  locationCount: number;
+  type: string;
+  typeCount: number;
+}
+
 interface ICreateCallInput {
   datetime: ICall["datetime"];
   eventID: ICall["eventID"];
@@ -23,4 +32,4 @@ const CallSchema = new mongoose.Schema({
 
 const Call = mongoose.model<ICall>("Call", CallSchema);
 
-export { Call as default, ICreateCallInput, ICall };
+export { Call as default, ICreateCallInput, ICall, ICallDTO };

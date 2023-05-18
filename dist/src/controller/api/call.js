@@ -23,7 +23,7 @@ const parse_1 = __importDefault(require("../../services/parse"));
 //     calls: calls,
 //   });
 // }
-function getAll(req, res) {
+function getAll() {
     return __awaiter(this, void 0, void 0, function* () {
         const calls = yield call_1.default.find({}).catch((error) => {
             return error;
@@ -39,10 +39,26 @@ function getByURLQuery(req, res) {
         const calls = yield call_1.default.find(query).catch((error) => {
             return error;
         });
-        return calls;
+        const callsAsDTOs = createDTOs(calls);
+        return callsAsDTOs;
     });
 }
 exports.getByURLQuery = getByURLQuery;
+function createDTOs(calls) {
+    const dtos = [];
+    calls.forEach((call) => {
+        let dto = {
+            datetime: call.datetime,
+            eventID: call.eventID,
+            location: call.location,
+            locationCount: calls.filter((obj) => obj.location === call.location).length,
+            type: call.type,
+            typeCount: calls.filter((obj) => obj.type === call.type).length,
+        };
+        dtos.push(dto);
+    });
+    return dtos;
+}
 function saveCall({ datetime, eventID, location, type, }) {
     return __awaiter(this, void 0, void 0, function* () {
         call_1.default.findOne({ eventID: eventID }).then((res) => {
