@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
 function parseQueryFromURL(req: Request, query: any) {
-  if (req.query.startDate || req.query.dateEnd) {
+  if (req.query && (req.query.startDate || req.query.dateEnd)) {
     Object.assign(query, { datetime: {} });
 
     if (req.query.dateStart) {
@@ -15,15 +15,25 @@ function parseQueryFromURL(req: Request, query: any) {
     }
   }
 
-  if (req.query.type) {
+  if (req.query && req.query.type) {
     Object.assign(query, { type: { $regex: req.query.type, $options: "i" } });
   }
 
-  if (req.query.location) {
+  if (req.query && req.query.location) {
     Object.assign(query, {
       location: { $regex: req.query.location, $options: "i" },
     });
   }
 }
 
-export default parseQueryFromURL;
+function getSortMethod(req: Request, sort: any) {
+  Object.assign(sort, { datetime: -1 }); //sort by most recent by default
+  if (req.query && req.query.sort && req.query.direction) {
+    delete sort.datetime;
+    const method: any = req.query.sort || null;
+    const direction: any = req.query.direction === "asc" ? 1 : -1;
+    Object.assign(sort, { [method]: direction });
+  }
+}
+
+export { parseQueryFromURL, getSortMethod };

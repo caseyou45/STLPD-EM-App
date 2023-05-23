@@ -2,7 +2,7 @@ import { ICall, ICallDTO } from "../../models/call";
 import CallModel from "../../models/call";
 import { Request, Response } from "express";
 import { ICreateCallInput } from "../../models/call";
-import parseQueryFromURL from "../../services/parse";
+import { parseQueryFromURL, getSortMethod } from "../../services/parse";
 
 // async function getAll(req: Request, res: Response) {
 //   const calls = await CallModel.find({}).catch((error: Error) => {
@@ -25,22 +25,64 @@ async function getByURLQuery(
   res: Response
 ): Promise<ICallDTO[] | Error> {
   const query: any = {};
+  const sort: any = {};
 
+  getSortMethod(req, sort);
   parseQueryFromURL(req, query);
 
-  const calls: ICall[] | any = await CallModel.find(query).catch(
-    (error: Error) => {
+  const calls: ICall[] | any = await CallModel.find(query)
+    .sort(sort)
+    .catch((error: Error) => {
       return error;
-    }
-  );
+    });
 
-  const callsAsDTOs = createDTOs(calls);
+  let callsAsDTOs = createDTOs(calls);
+  // callsAsDTOs = sortDTOsByCounts(callsAsDTOs, req);
 
   return callsAsDTOs;
 }
 
+function sortDTOsByCounts(calls: ICallDTO[], req: Request): ICallDTO[] {
+  if (req.query.sort === "locationCount") {
+    if (req.query.direction === "asc") {
+      calls.sort((a, b) => a.locationCount - b.locationCount);
+    } else {
+      calls.sort((a, b) => b.locationCount - a.locationCount);
+    }
+  } else if (req.query.sort === "typeCount") {
+    if (req.query.direction === "asc") {
+      calls.sort((a, b) => a.typeCount - b.typeCount);
+    } else {
+      calls.sort((a, b) => b.typeCount - a.typeCount);
+    }
+  }
+
+  return calls;
+}
+
+//function sortDTOsByCounts(calls: ICallDTO[], req: Request): ICallDTO[] {
+//   const sortProperty = req.query.sort as keyof ICallDTO | undefined;
+//   const direction = req.query.direction === "asc" ? 1 : -1;
+
+//   if (sortProperty !== undefined) {
+//     calls.sort(
+//       (a, b) => (Number(a[sortProperty]) - Number(b[sortProperty])) * direction
+//     );
+//   }
+
+//   return calls;
+// }
+//////
+// function sortDTOsByCounts(calls: ICallDTO[], req: Request): ICallDTO[] {
+//   const property: keyof ICallDTO = req.query.sort as keyof ICallDTO;
+
+//   return calls.sort((a, b) => Number(a[property]) - Number(b[property]));
+// }
+
 function createDTOs(calls: ICall[]): any {
   const dtos: ICallDTO[] = [];
+
+  calls = calls || [];
 
   calls.forEach((call: ICall) => {
     let dto: ICallDTO = {

@@ -1,9 +1,13 @@
 .card {
     border-radius: 6px;
-    padding: 6px;
+    padding: 10px;
 
     margin: 2rem auto;
     width: 70%;
+
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
 
 }
 
@@ -11,12 +15,15 @@
 .type {
     border-radius: 12px;
     box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, .2);
-
     background-color: rgba(255, 0, 0, .1);
-    padding: 3px 12px 3px;
+    padding: 6px 12px 3px;
     width: fit-content;
+    transition: background-color 0.3s ease-in-out;
 }
 
+.type:hover {
+    background-color: rgba(255, 0, 0, .5);
+}
 
 .type :last-child {
     border-radius: 12px;
@@ -26,16 +33,21 @@
 
 }
 
+
 .location {
     border-radius: 12px;
     box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, .2);
-
     background-color: rgba(0, 255, 0, .1);
-    margin-top: .5rem;
-    padding: 3px 12px 3px;
+    padding: 6px 12px 3px;
     width: fit-content;
-
+    transition: background-color 0.3s ease-in-out;
+    margin-top: 15px;
 }
+
+.location:hover {
+    background-color: rgba(0, 255, 0, .5);
+}
+
 
 .location :last-child {
     border-radius: 12px;

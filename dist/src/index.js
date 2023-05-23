@@ -31,6 +31,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const mongoose = __importStar(require("mongoose"));
 const call_1 = __importDefault(require("./routes/call"));
 const index_1 = __importDefault(require("./controller/index"));
+const scrape_1 = __importDefault(require("./services/scrape"));
 const path = require("path");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
@@ -41,6 +42,8 @@ app.use("/", index_1.default);
 app.use("/api/calls", call_1.default);
 app.use(express_1.default.static(path.join(__dirname, "public")));
 app.set("view engine", "pug");
+(0, scrape_1.default)();
 app.listen(port, () => {
-    console.log(`⚡️[server]: Server is runn ing at http://localhost:${port}`);
+    console.log(` http://localhost:${port}`);
 });
+exports.default = app;

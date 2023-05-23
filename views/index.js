@@ -1,15 +1,16 @@
 const locations = document.getElementsByClassName("location");
 const types = document.getElementsByClassName("type");
+const locationButton = document.getElementById("locationMain");
+const typeButton = document.getElementById("typeMain");
 
-const params = { location: "", type: "" };
+const params = { location: "", type: "", sort: "", direction: "" };
 
 for (let index = 0; index < locations.length; index++) {
-  locations[index].addEventListener(
-    "click",
-    () => goToLocation(locations[index]),
-    false
-  );
-  types[index].addEventListener("click", () => goToType(types[index]), false);
+  const location = locations[index];
+  location.addEventListener("click", () => goToLocation(location), false);
+
+  const type = types[index];
+  type.addEventListener("click", () => goToType(type), false);
 }
 
 function goToLocation(loc) {
@@ -28,6 +29,17 @@ function createURL() {
     if (value) url.searchParams.append(key, value);
   }
   window.location = url.href;
+}
+
+function clearParams() {
+  params.location = "";
+  params.type = "";
+  createURL();
+}
+
+function toggleFilter(event) {
+  var button = document.getElementById(event.id);
+  button.style.display = "none";
 }
 
 const searchParams = new URLSearchParams(window.location.href.split("?")[1]);

@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import * as mongoose from "mongoose";
 import CallRouter from "./routes/call";
 import IndexRouter from "./controller/index";
+import startCallRecording from "./services/scrape";
 const path = require("path");
 
 dotenv.config();
@@ -18,6 +19,9 @@ app.use("/api/calls", CallRouter);
 app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "pug");
 
+startCallRecording();
 app.listen(port, () => {
-  console.log(`⚡️[server]: Server is runn ing at http://localhost:${port}`);
+  console.log(` http://localhost:${port}`);
 });
+
+export default app;
