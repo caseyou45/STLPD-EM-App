@@ -4,16 +4,12 @@ html
       include styles.css
     title= title
     body 
+    div#control
+      span#locationMainButton.location
+      span#typeMainButton.type
+      span#dateMain 7 Days
     main
-      for call in calls
-        div.card
-          p=call.datetime
-          div.type
-            span=call.type
-            span=call.typeCount
+    section#calls
 
-          div.location
-            span=call.location
-            span=call.locationCount
     script 
       include index.js

@@ -4,26 +4,10 @@ import { Request, Response } from "express";
 import { ICreateCallInput } from "../../models/call";
 import { parseQueryFromURL, getSortMethod } from "../../services/parse";
 
-// async function getAll(req: Request, res: Response) {
-//   const calls = await CallModel.find({}).catch((error: Error) => {
-//     return res.json({ error: error });
-//   });
-//   return res.json({
-//     calls: calls,
-//   });
-// }
-
-async function getAll(): Promise<ICall[] | Error> {
-  const calls = await CallModel.find({}).catch((error: Error) => {
-    return error;
-  });
-  return calls;
-}
-
-async function getByURLQuery(
+export default async function getByURLQuery(
   req: Request,
   res: Response
-): Promise<ICallDTO[] | Error> {
+): Promise<any> {
   const query: any = {};
   const sort: any = {};
 
@@ -37,49 +21,23 @@ async function getByURLQuery(
     });
 
   let callsAsDTOs = createDTOs(calls);
-  // callsAsDTOs = sortDTOsByCounts(callsAsDTOs, req);
-
-  return callsAsDTOs;
+  res.json(callsAsDTOs);
 }
 
 function sortDTOsByCounts(calls: ICallDTO[], req: Request): ICallDTO[] {
-  if (req.query.sort === "locationCount") {
-    if (req.query.direction === "asc") {
-      calls.sort((a, b) => a.locationCount - b.locationCount);
-    } else {
-      calls.sort((a, b) => b.locationCount - a.locationCount);
-    }
-  } else if (req.query.sort === "typeCount") {
-    if (req.query.direction === "asc") {
-      calls.sort((a, b) => a.typeCount - b.typeCount);
-    } else {
-      calls.sort((a, b) => b.typeCount - a.typeCount);
-    }
+  const sortProperty = req.query.sort as keyof ICallDTO | undefined;
+  const direction = req.query.direction === "asc" ? 1 : -1;
+
+  if (sortProperty !== undefined) {
+    calls.sort(
+      (a, b) => (Number(a[sortProperty]) - Number(b[sortProperty])) * direction
+    );
   }
 
   return calls;
 }
 
-//function sortDTOsByCounts(calls: ICallDTO[], req: Request): ICallDTO[] {
-//   const sortProperty = req.query.sort as keyof ICallDTO | undefined;
-//   const direction = req.query.direction === "asc" ? 1 : -1;
-
-//   if (sortProperty !== undefined) {
-//     calls.sort(
-//       (a, b) => (Number(a[sortProperty]) - Number(b[sortProperty])) * direction
-//     );
-//   }
-
-//   return calls;
-// }
-//////
-// function sortDTOsByCounts(calls: ICallDTO[], req: Request): ICallDTO[] {
-//   const property: keyof ICallDTO = req.query.sort as keyof ICallDTO;
-
-//   return calls.sort((a, b) => Number(a[property]) - Number(b[property]));
-// }
-
-function createDTOs(calls: ICall[]): any {
+function createDTOs(calls: ICall[]): ICallDTO[] {
   const dtos: ICallDTO[] = [];
 
   calls = calls || [];
@@ -102,7 +60,7 @@ function createDTOs(calls: ICall[]): any {
   return dtos;
 }
 
-async function saveCall({
+export async function saveCall({
   datetime,
   eventID,
   location,
@@ -121,5 +79,3 @@ async function saveCall({
     }
   });
 }
-
-export { saveCall, getAll, getByURLQuery };

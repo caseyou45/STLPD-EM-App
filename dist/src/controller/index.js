@@ -9,13 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const call_1 = require("./api/call");
 function default_1(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const calls = yield (0, call_1.getByURLQuery)(req, res);
-        res.render("index", {
-            calls: calls,
-        });
+        return res.render("index");
     });
 }
 exports.default = default_1;
