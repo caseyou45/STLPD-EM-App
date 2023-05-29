@@ -2,7 +2,7 @@
     border-radius: 6px;
     padding: 10px;
 
-    margin: 2rem auto;
+    margin: 2rem 0;
     width: 70%;
 
     background-color: #ffffff;
@@ -11,14 +11,27 @@
 
 }
 
-
-.type {
+.card>div,
+#control>span {
     border-radius: 12px;
     box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, .2);
-    background-color: rgba(255, 0, 0, .1);
     padding: 6px 12px 3px;
     width: fit-content;
     transition: background-color 0.5s ease-in-out;
+    margin-top: 15px;
+
+}
+
+.card>div> :last-child,
+#control>span {
+    border-radius: 12px;
+    margin-left: 10px;
+    padding: 2px 12px 1px;
+}
+
+
+.type {
+    background-color: rgba(255, 0, 0, .1);
 }
 
 .type:hover {
@@ -26,22 +39,13 @@
 }
 
 .type :last-child {
-    border-radius: 12px;
     background-color: rgba(255, 0, 0, .3);
-    margin-left: 10px;
-    padding: 2px 12px 1px;
 
 }
 
 
 .location {
-    border-radius: 12px;
-    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, .2);
     background-color: rgba(0, 255, 0, .1);
-    padding: 6px 12px 3px;
-    width: fit-content;
-    transition: background-color 0.5s ease-in-out;
-    margin-top: 15px;
 }
 
 .location:hover {
@@ -50,35 +54,42 @@
 
 
 .location :last-child {
-    border-radius: 12px;
     background-color: rgba(0, 255, 0, .3);
-    margin-left: 10px;
-    padding: 2px 12px 1px;
+}
+
+.callGroup {
+    padding: 10px;
+
+    margin: 2rem auto;
+    width: 70%;
+
+    background-color: rgba(0, 255, 255, .1);
+    border-radius: 8px;
 
 }
 
 
-#dateMain {
-    border-radius: 12px;
-    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, .2);
-    background-color: rgba(0, 255, 255, .1);
-    padding: 6px 12px 3px;
+#dateSelector {
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, .4);
+    background-color: inherit;
+    padding: 6px 15px 3px;
     width: fit-content;
     transition: background-color 0.5s ease-in-out;
     margin-top: 15px;
 }
 
-#dateMain:hover {
-    background-color: rgba(0, 255, 255, .5);
+#dateSelector:hover {
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, .2);
 }
 
-
-#dateMain :last-child {
+.date {
     border-radius: 12px;
-    background-color: rgba(0, 255, 255, .3);
-    margin-left: 10px;
-    padding: 2px 12px 1px;
-
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, .4);
+    padding: 6px 12px 3px;
+    width: fit-content;
+    transition: background-color 0.5s ease-in-out;
 }
 
 

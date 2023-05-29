@@ -1,10 +1,13 @@
 const locations = document.getElementsByClassName("location");
 const types = document.getElementsByClassName("type");
-const locationButton = document.getElementById("locationMain");
-const typeButton = document.getElementById("typeMain");
-const callsList = document.getElementById("calls");
-const typeMainButton = document.getElementById("typeMainButton");
-const locationMainButton = document.getElementById("locationMainButton");
+const locationButton = document.querySelector("#locationMain");
+const typeButton = document.querySelector("#typeMain");
+const callsList = document.querySelector("#calls");
+const typeMainButton = document.querySelector("#typeMainButton");
+const locationMainButton = document.querySelector("#locationMainButton");
+const dateSelector = document.querySelector("#dateSelector");
+const groupType = document.querySelector("#groupType");
+const groupLocation = document.querySelector("#groupLocation");
 
 const params = {
   location: "",
@@ -13,35 +16,42 @@ const params = {
   direction: "",
   dateStart: "",
   dateEnd: "",
+  groupBy: "",
 };
 
-let baseURL = "/api/";
+const baseURL = "/api/";
 
 function toggleOnLocationFilter(loc) {
   params["location"] = loc.childNodes[0].innerHTML;
-  locationMainButton.style.display = "block";
   locationMainButton.innerHTML = params["location"];
   setURL();
 }
 
 function toggleOnTypeFilter(type) {
   params["type"] = type.childNodes[0].innerHTML;
-  typeMainButton.style.display = "block";
-  typeMainButton.innerHTML = params["type"];
   setURL();
 }
 
 async function setURL() {
-  let apppend = "?";
-  for (const [key, value] of Object.entries(params)) {
+  let append = "?";
+  for (let [key, value] of Object.entries(params)) {
     if (value) {
-      apppend += key + "=" + encodeURI(value) + "&";
+      //MongoDB no likey parenthesis. So we don't include them in the search. Nothing of value is lost.
+      if (value.includes("(")) {
+        let par = value.indexOf("(");
+        value = value.slice(0, par);
+      }
+      append += key + "=" + encodeURI(value) + "&";
     }
   }
 
-  if (apppend[apppend.length - 1] === "&") apppend = apppend.slice(0, -1);
+  if (append[append.length - 1] === "&") append = append.slice(0, -1);
 
-  getCalls(apppend);
+  if (params.groupBy !== "") {
+    window.location = "/group" + append;
+  } else {
+    window.location = "/" + append;
+  }
 }
 
 function setSingleDateWithOffset(offset) {
@@ -56,42 +66,6 @@ function setDateParams(start, end) {
   params.dateStart = setSingleDateWithOffset(start);
   params.dateEnd = setSingleDateWithOffset(end);
 }
-async function getCalls(paramURL) {
-  console.log(baseURL + paramURL);
-  const response = await fetch(baseURL + paramURL);
-  const data = await response.json();
-  callsList.innerHTML = "";
-  data.forEach((element) => {
-    let div = document.createElement("div");
-    div.innerHTML =
-      "<div class='card'>" +
-      element.datetime +
-      "<div class='type'><span>" +
-      element.type +
-      "</span><span>" +
-      element.typeCount +
-      "</span>" +
-      "</div>" +
-      "<div class='location'><span>" +
-      element.location +
-      "</span><span>" +
-      element.locationCount +
-      "</span>" +
-      "</div>";
-
-    const location = div.getElementsByClassName("location")[0];
-    location.addEventListener(
-      "click",
-      () => toggleOnLocationFilter(location),
-      false
-    );
-
-    const type = div.getElementsByClassName("type")[0];
-    type.addEventListener("click", () => toggleOnTypeFilter(type), false);
-
-    callsList.append(div);
-  });
-}
 
 function toggleOffTypeFilter() {
   params.type = "";
@@ -105,12 +79,54 @@ function toggleOffLocationFilter() {
   setURL();
 }
 
+function handleDateChange() {
+  const daysAgo = dateSelector.value;
+  setDateParams(daysAgo, -1);
+  setURL();
+}
 typeMainButton.addEventListener("click", () => toggleOffTypeFilter(), false);
+
 locationMainButton.addEventListener(
   "click",
   () => toggleOffLocationFilter(),
   false
 );
 
-setDateParams(1, -1);
-setURL();
+dateSelector.addEventListener("click", () => handleDateChange(), false);
+
+for (let index = 0; index < types.length; index++) {
+  types[index].addEventListener(
+    "click",
+    () => toggleOnTypeFilter(types[index]),
+    false
+  );
+  locations[index].addEventListener(
+    "click",
+    () => toggleOnLocationFilter(locations[index]),
+    false
+  );
+}
+
+groupType.addEventListener(
+  "click",
+  () => {
+    console.log()
+    params.groupBy = "type";
+    setURL();
+  },
+  false
+);
+groupLocation.addEventListener(
+  "click",
+  () => {
+    params.groupBy = "location";
+    setURL();
+  },
+  false
+);
+
+const urlParams = new URLSearchParams(window.location.search);
+
+for (const [key, value] of urlParams) {
+  params[key] = value;
+}

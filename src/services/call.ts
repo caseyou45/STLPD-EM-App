@@ -1,50 +1,39 @@
-import { ICall, ICallDTO } from "../../models/call";
-import CallModel from "../../models/call";
+import { ICall, ICallDTO } from "../models/call";
+import CallModel from "../models/call";
 import { Request, Response } from "express";
-import { ICreateCallInput } from "../../models/call";
-import { parseQueryFromURL, getSortMethod } from "../../services/parse";
+import { ICreateCallInput } from "../models/call";
+import { parseQueryFromURL } from "./parse";
+import { getSortMethod } from "./sort";
+import { createLocalDate, createLocalTime } from "./time";
 
-export default async function getByURLQuery(
+export default async function getWithoutGrouping(
   req: Request,
   res: Response
-): Promise<any> {
+): Promise<ICallDTO[]> {
   const query: any = {};
   const sort: any = {};
 
-  getSortMethod(req, sort);
+  let calls: ICall[] = [];
+  let callsAsDTOs: ICallDTO[] = [];
+
   parseQueryFromURL(req, query);
+  getSortMethod(req, sort);
 
-  const calls: ICall[] | any = await CallModel.find(query)
-    .sort(sort)
-    .catch((error: Error) => {
-      return error;
-    });
+  calls = await CallModel.find(query).sort(sort);
 
-  let callsAsDTOs = createDTOs(calls);
-  res.json(callsAsDTOs);
-}
+  callsAsDTOs = createDTOs(calls);
 
-function sortDTOsByCounts(calls: ICallDTO[], req: Request): ICallDTO[] {
-  const sortProperty = req.query.sort as keyof ICallDTO | undefined;
-  const direction = req.query.direction === "asc" ? 1 : -1;
-
-  if (sortProperty !== undefined) {
-    calls.sort(
-      (a, b) => (Number(a[sortProperty]) - Number(b[sortProperty])) * direction
-    );
-  }
-
-  return calls;
+  return callsAsDTOs;
 }
 
 function createDTOs(calls: ICall[]): ICallDTO[] {
   const dtos: ICallDTO[] = [];
-
   calls = calls || [];
 
   calls.forEach((call: ICall) => {
     let dto: ICallDTO = {
-      datetime: call.datetime,
+      date: createLocalDate(call.datetime),
+      time: createLocalTime(call.datetime),
       eventID: call.eventID,
       location: call.location,
       locationCount: calls.filter(

@@ -16,7 +16,18 @@ const call_1 = __importDefault(require("../services/call"));
 function default_1(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const calls = yield (0, call_1.default)(req, res);
-        return res.render("index", { calls: calls });
+        const groupedCalls = [];
+        const groupChoice = req.query.groupBy;
+        const result = calls.map((call) => call[groupChoice]);
+        const keys = [...new Set(result)];
+        for (const key of keys) {
+            groupedCalls.push({
+                groupBy: groupChoice,
+                groupKey: key,
+                calls: calls.filter((call) => call[groupChoice] == key),
+            });
+        }
+        return res.render("group", { calls: groupedCalls });
     });
 }
 exports.default = default_1;

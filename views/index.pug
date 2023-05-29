@@ -7,9 +7,24 @@ html
     div#control
       span#locationMainButton.location
       span#typeMainButton.type
-      span#dateMain 7 Days
+      span#groupType Group by Type
+      span#groupLocation Group by Location
+      select#dateSelector
+        option(value=1) 1 Day
+        option(value=7) 7 Days
+        option(value=30) 30 Days
     main
     section#calls
+      for call in calls
+        div.card
+          div.date=call.time + " --- " + call.date 
+          div.type
+            span=call.type
+            span=call.typeCount
+          div.location
+            span=call.location 
+            span=call.locationCount
+
 
     script 
       include index.js

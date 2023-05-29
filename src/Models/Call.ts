@@ -8,7 +8,8 @@ interface ICall {
 }
 
 interface ICallDTO {
-  datetime: Date;
+  date: String;
+  time: String;
   eventID: string;
   location: string;
   locationCount: number;

@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request } from "express";
 
 function parseQueryFromURL(req: Request, query: any) {
   if (req.query && (req.query.startDate || req.query.dateEnd)) {
@@ -13,6 +13,18 @@ function parseQueryFromURL(req: Request, query: any) {
       const dateEnd: any = req.query.dateEnd;
       Object.assign(query.datetime, { $lt: new Date(dateEnd) });
     }
+
+    //By default, just get the past days worth of calls
+  } else if (req.query && !req.query.startDate && !req.query.dateEnd) {
+    const dayAgo = new Date();
+    dayAgo.setDate(dayAgo.getDate() - 1);
+
+    Object.assign(query, {
+      datetime: {
+        $gte: dayAgo,
+        $lt: new Date(),
+      },
+    });
   }
 
   if (req.query && req.query.type) {
@@ -26,14 +38,4 @@ function parseQueryFromURL(req: Request, query: any) {
   }
 }
 
-function getSortMethod(req: Request, sort: any) {
-  Object.assign(sort, { datetime: -1 }); //sort by most recent by default
-  if (req.query && req.query.sort && req.query.direction) {
-    delete sort.datetime;
-    const method: any = req.query.sort || null;
-    const direction: any = req.query.direction === "asc" ? 1 : -1;
-    Object.assign(sort, { [method]: direction });
-  }
-}
-
-export { parseQueryFromURL, getSortMethod };
+export { parseQueryFromURL };

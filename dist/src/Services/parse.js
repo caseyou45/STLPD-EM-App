@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSortMethod = exports.parseQueryFromURL = void 0;
+exports.parseQueryFromURL = void 0;
 function parseQueryFromURL(req, query) {
     if (req.query && (req.query.startDate || req.query.dateEnd)) {
         Object.assign(query, { datetime: {} });
@@ -12,6 +12,17 @@ function parseQueryFromURL(req, query) {
             const dateEnd = req.query.dateEnd;
             Object.assign(query.datetime, { $lt: new Date(dateEnd) });
         }
+        //By default, just get the past days worth of calls
+    }
+    else if (req.query && !req.query.startDate && !req.query.dateEnd) {
+        const dayAgo = new Date();
+        dayAgo.setDate(dayAgo.getDate() - 1);
+        Object.assign(query, {
+            datetime: {
+                $gte: dayAgo,
+                $lt: new Date(),
+            },
+        });
     }
     if (req.query && req.query.type) {
         Object.assign(query, { type: { $regex: req.query.type, $options: "i" } });
@@ -23,13 +34,3 @@ function parseQueryFromURL(req, query) {
     }
 }
 exports.parseQueryFromURL = parseQueryFromURL;
-function getSortMethod(req, sort) {
-    Object.assign(sort, { datetime: -1 }); //sort by most recent by default
-    if (req.query && req.query.sort && req.query.direction) {
-        delete sort.datetime;
-        const method = req.query.sort || null;
-        const direction = req.query.direction === "asc" ? 1 : -1;
-        Object.assign(sort, { [method]: direction });
-    }
-}
-exports.getSortMethod = getSortMethod;

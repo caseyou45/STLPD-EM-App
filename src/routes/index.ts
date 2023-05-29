@@ -1,9 +1,11 @@
 import { Router } from "express";
 
-import index from "../controller/index";
+import getWithoutGrouping from "../controller/index";
+import getGrouped from "../controller/group";
 
 const router = Router();
 
-router.get("/", index);
+router.get("/", getWithoutGrouping);
+router.get("/group", getGrouped);
 
 export default router;

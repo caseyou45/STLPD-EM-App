@@ -38,7 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const cheerio = __importStar(require("cheerio"));
 const axios_1 = __importDefault(require("axios"));
 const dotenv_1 = __importDefault(require("dotenv"));
-const call_1 = require("../controller/api/call");
+const call_1 = require("./call");
 dotenv_1.default.config();
 function fetchPage() {
     const data = axios_1.default.get(`${process.env.PD_URL}`).then((res) => {

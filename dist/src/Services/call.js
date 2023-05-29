@@ -13,10 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.saveCall = void 0;
-const call_1 = __importDefault(require("../../models/call"));
-const parse_1 = require("../../services/parse");
-const sort_1 = require("../../services/sort");
-const time_1 = require("../../services/time");
+const call_1 = __importDefault(require("../models/call"));
+const parse_1 = require("./parse");
+const sort_1 = require("./sort");
+const time_1 = require("./time");
 function getWithoutGrouping(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const query = {};
