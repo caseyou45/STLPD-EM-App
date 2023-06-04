@@ -5,26 +5,53 @@ html
     title= title
     body 
     div#control
-      span#locationMainButton.location
-      span#typeMainButton.type
-      span#groupType Group by Type
-      span#groupLocation Group by Location
+      div#locationMain All Calls From Location: 
+        div#locationMainButton.location.roundButton
+      div#typeMain All Calls For Type: 
+        div#typeMainButton.type.roundButton
       select#dateSelector
         option(value=1) 1 Day
         option(value=7) 7 Days
         option(value=30) 30 Days
+
+      select#sortCategory
+        option(value="recent") Most Recent 
+        option(value="oldest") Oldest
+        option(value="typeCount") Type Count
+        option(value="locationCount") Location Count
+        option(value="location") Location A-Z
+        option(value="type") Type A-Z
+
+
     main
     section#calls
       for call in calls
         div.card
-          div.date=call.time + " --- " + call.date 
-          div.type
-            span=call.type
-            span=call.typeCount
-          div.location
-            span=call.location 
-            span=call.locationCount
-
+          div.roundButton=call.time + " --- " + call.date 
+          div.typeContainer
+              span.type.roundButton=call.type
+              if originalQuery.location
+                if call.typeCount > 1
+                  span=call.typeCount+ " calls of this type from this location"
+                else 
+                  span=call.typeCount + " call of this type from this location"
+              else 
+                if call.typeCount > 1
+                  span=call.typeCount + " calls of this type from any location"
+                else 
+                  span=call.typeCount + " call of this type from any location"
+          div.locationContainer
+            span.location.roundButton=call.location
+            if originalQuery.type
+              if call.locationCount > 1
+                span=call.locationCount+ " calls from this location of this type"
+              else 
+                span=call.locationCount + " call from this location of this type"
+            else 
+              if call.locationCount > 1
+                span=call.locationCount + " calls from this location for any type"
+              else 
+                span=call.locationCount + " call from this location for any type"
 
     script 
       include index.js

@@ -5,9 +5,10 @@ const typeButton = document.querySelector("#typeMain");
 const callsList = document.querySelector("#calls");
 const typeMainButton = document.querySelector("#typeMainButton");
 const locationMainButton = document.querySelector("#locationMainButton");
+const typeMain = document.querySelector("#typeMain");
+const locationMain = document.querySelector("#locationMain");
 const dateSelector = document.querySelector("#dateSelector");
-const groupType = document.querySelector("#groupType");
-const groupLocation = document.querySelector("#groupLocation");
+const sortCategory = document.querySelector("#sortCategory");
 
 const params = {
   location: "",
@@ -19,16 +20,19 @@ const params = {
   groupBy: "",
 };
 
-const baseURL = "/api/";
+const urlParams = new URLSearchParams(window.location.search);
+
+for (const [key, value] of urlParams) {
+  params[key] = value;
+}
 
 function toggleOnLocationFilter(loc) {
-  params["location"] = loc.childNodes[0].innerHTML;
-  locationMainButton.innerHTML = params["location"];
+  params["location"] = loc.innerHTML;
   setURL();
 }
 
 function toggleOnTypeFilter(type) {
-  params["type"] = type.childNodes[0].innerHTML;
+  params["type"] = type.innerHTML;
   setURL();
 }
 
@@ -67,66 +71,112 @@ function setDateParams(start, end) {
   params.dateEnd = setSingleDateWithOffset(end);
 }
 
-function toggleOffTypeFilter() {
-  params.type = "";
-  typeMainButton.style.display = "none";
-  setURL();
-}
-
 function toggleOffLocationFilter() {
   params.location = "";
-  locationMainButton.style.display = "none";
   setURL();
 }
 
-function handleDateChange() {
-  const daysAgo = dateSelector.value;
-  setDateParams(daysAgo, -1);
-  setURL();
-}
-typeMainButton.addEventListener("click", () => toggleOffTypeFilter(), false);
+typeMainButton.addEventListener(
+  "click",
+  () => {
+    params.type = "";
+    setURL();
+  },
+  false
+);
 
 locationMainButton.addEventListener(
   "click",
-  () => toggleOffLocationFilter(),
+  () => {
+    params.location = "";
+    setURL();
+  },
   false
 );
 
-dateSelector.addEventListener("click", () => handleDateChange(), false);
+dateSelector.addEventListener(
+  "click",
+  () => {
+    const daysAgo = dateSelector.value;
+    setDateParams(daysAgo, -1);
+    setURL();
+  },
+  false
+);
 
 for (let index = 0; index < types.length; index++) {
-  types[index].addEventListener(
-    "click",
-    () => toggleOnTypeFilter(types[index]),
-    false
-  );
-  locations[index].addEventListener(
-    "click",
-    () => toggleOnLocationFilter(locations[index]),
-    false
-  );
+  if (params.type === "") {
+    types[index].addEventListener(
+      "click",
+      () => toggleOnTypeFilter(types[index]),
+      false
+    );
+  } else {
+    types[index].parentElement.style.display = "none";
+  }
+
+  if (params.location === "") {
+    locations[index].addEventListener(
+      "click",
+      () => toggleOnLocationFilter(locations[index]),
+      false
+    );
+  } else {
+    locations[index].parentElement.style.display = "none";
+  }
 }
 
-groupType.addEventListener(
+typeMainButton.addEventListener(
   "click",
   () => {
-    console.log()
-    params.groupBy = "type";
-    setURL();
-  },
-  false
-);
-groupLocation.addEventListener(
-  "click",
-  () => {
-    params.groupBy = "location";
+    params.type = "";
     setURL();
   },
   false
 );
 
-const urlParams = new URLSearchParams(window.location.search);
+locationMainButton.addEventListener(
+  "click",
+  () => {
+    params.location = "";
+    setURL();
+  },
+  false
+);
 
-for (const [key, value] of urlParams) {
-  params[key] = value;
+if (params.type !== "") {
+  typeMainButton.style.display = "inline";
+  typeMain.style.display = "inline";
+  typeMainButton.innerHTML = params.type + typeMainButton.innerHTML;
+}
+
+if (params.location !== "") {
+  locationMainButton.style.display = "inline";
+  locationMain.style.display = "inline";
+  locationMainButton.innerHTML = params.location + locationMainButton.innerHTML;
+}
+
+sortCategory.addEventListener(
+  "click",
+  () => {
+    handleSortChange();
+  },
+  false
+);
+
+function handleSortChange() {
+  params.sort = sortCategory.value;
+  params.direction = "dsc";
+
+  if (params.sort === "recent") {
+    params.sort = "datetime";
+    params.direction = "dsc";
+  }
+
+  if (params.sort === "oldest") {
+    params.sort = "datetime";
+    params.direction = "asc";
+  }
+
+  setURL();
 }

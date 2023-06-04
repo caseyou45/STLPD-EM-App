@@ -23,6 +23,30 @@ export default async function getWithoutGrouping(
 
   callsAsDTOs = createDTOs(calls);
 
+  callsAsDTOs = sortDTOsByCountsIfRequested(callsAsDTOs, req.query);
+
+  return callsAsDTOs;
+}
+
+function sortDTOsByCountsIfRequested(
+  callsAsDTOs: ICallDTO[],
+  query: any
+): ICallDTO[] {
+  if (query.sort === "typeCount") {
+    if (query.direction === "asc") {
+      callsAsDTOs.sort((a, b) => a.typeCount - b.typeCount);
+    } else {
+      callsAsDTOs.sort((a, b) => b.typeCount - a.typeCount);
+    }
+  } else if (query.sort === "locationCount") {
+    if (query.direction === "asc") {
+      callsAsDTOs.sort((a, b) => a.locationCount - b.locationCount);
+    } else {
+      callsAsDTOs.sort((a, b) => b.locationCount - a.locationCount);
+    }
+  }
+
+  console.log(query);
   return callsAsDTOs;
 }
 

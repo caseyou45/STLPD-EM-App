@@ -15,8 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const call_1 = __importDefault(require("../services/call"));
 function default_1(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const calls = yield (0, call_1.default)(req, res);
-        return res.render("index", { calls: calls });
+        const callsAsDTOs = yield (0, call_1.default)(req, res);
+        return res.render("index", {
+            calls: callsAsDTOs,
+            originalQuery: req.query,
+        });
     });
 }
 exports.default = default_1;

@@ -27,10 +27,31 @@ function getWithoutGrouping(req, res) {
         (0, sort_1.getSortMethod)(req, sort);
         calls = yield call_1.default.find(query).sort(sort);
         callsAsDTOs = createDTOs(calls);
+        callsAsDTOs = sortDTOsByCountsIfRequested(callsAsDTOs, req.query);
         return callsAsDTOs;
     });
 }
 exports.default = getWithoutGrouping;
+function sortDTOsByCountsIfRequested(callsAsDTOs, query) {
+    if (query.sort === "typeCount") {
+        if (query.direction === "asc") {
+            callsAsDTOs.sort((a, b) => a.typeCount - b.typeCount);
+        }
+        else {
+            callsAsDTOs.sort((a, b) => b.typeCount - a.typeCount);
+        }
+    }
+    else if (query.sort === "locationCount") {
+        if (query.direction === "asc") {
+            callsAsDTOs.sort((a, b) => a.locationCount - b.locationCount);
+        }
+        else {
+            callsAsDTOs.sort((a, b) => b.locationCount - a.locationCount);
+        }
+    }
+    console.log(query);
+    return callsAsDTOs;
+}
 function createDTOs(calls) {
     const dtos = [];
     calls = calls || [];
