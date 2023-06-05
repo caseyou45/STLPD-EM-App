@@ -1,14 +1,15 @@
 const locations = document.getElementsByClassName("location");
 const types = document.getElementsByClassName("type");
-const locationButton = document.querySelector("#locationMain");
-const typeButton = document.querySelector("#typeMain");
-const callsList = document.querySelector("#calls");
 const typeMainButton = document.querySelector("#typeMainButton");
 const locationMainButton = document.querySelector("#locationMainButton");
 const typeMain = document.querySelector("#typeMain");
 const locationMain = document.querySelector("#locationMain");
-const dateSelector = document.querySelector("#dateSelector");
 const sortCategory = document.querySelector("#sortCategory");
+const dateStart = document.querySelector("#dateStart");
+const dateEnd = document.querySelector("#dateEnd");
+const dateSet = document.querySelector("#dateSet");
+const sortSet = document.querySelector("#sortSet");
+const sortDirection = document.querySelector("#sortDirection");
 
 const params = {
   location: "",
@@ -20,20 +21,77 @@ const params = {
   groupBy: "",
 };
 
-const urlParams = new URLSearchParams(window.location.search);
+sortDirection.addEventListener(
+  "click",
+  () => {
+    handleDirectionButton();
+  },
+  false
+);
 
-for (const [key, value] of urlParams) {
-  params[key] = value;
+function handleDirectionButton() {
+  if (params.direction === "" || params.direction === "asc") {
+    params.direction = "dsc";
+    sortDirection.innerHTML = "&#8595;";
+  } else {
+    sortDirection.innerHTML = "&#8593;";
+    params.direction = "asc";
+  }
 }
 
-function toggleOnLocationFilter(loc) {
-  params["location"] = loc.innerHTML;
-  setURL();
+function setParams() {
+  const urlParams = new URLSearchParams(window.location.search);
+
+  for (const [key, value] of urlParams) {
+    params[key] = value;
+  }
 }
 
-function toggleOnTypeFilter(type) {
-  params["type"] = type.innerHTML;
-  setURL();
+function setButtonsBasedOnParams() {
+  for (let index = 0; index < types.length; index++) {
+    if (params.type === "") {
+      types[index].addEventListener(
+        "click",
+        () => toggleOnTypeFilter(types[index]),
+        false
+      );
+    } else {
+      types[index].parentElement.style.display = "none";
+    }
+
+    if (params.location === "") {
+      locations[index].addEventListener(
+        "click",
+        () => toggleOnLocationFilter(locations[index]),
+        false
+      );
+    } else {
+      locations[index].parentElement.style.display = "none";
+    }
+  }
+
+  if (params.type !== "") {
+    typeMainButton.style.display = "inline";
+    typeMain.style.display = "inline";
+    typeMainButton.innerHTML = params.type + typeMainButton.innerHTML;
+  }
+
+  if (params.location !== "") {
+    locationMainButton.style.display = "inline";
+    locationMain.style.display = "inline";
+    locationMainButton.innerHTML =
+      params.location + locationMainButton.innerHTML;
+  }
+
+  if (params.sort !== "") {
+    sortCategory.value = params.sort;
+  }
+
+  if (params.direction === "" || params.direction === "asc") {
+    sortDirection.innerHTML = "&#8593;";
+  } else {
+    sortDirection.innerHTML = "&#8595;";
+  }
 }
 
 async function setURL() {
@@ -58,17 +116,14 @@ async function setURL() {
   }
 }
 
-function setSingleDateWithOffset(offset) {
-  let todayDate = new Date();
-  todayDate.setMinutes(todayDate.getMinutes() - todayDate.getTimezoneOffset());
-  let result = todayDate.setDate(todayDate.getDate() - offset);
-  let dayString = new Date(result).toISOString().slice(0, 10);
-  return dayString;
+function toggleOnLocationFilter(loc) {
+  params["location"] = loc.innerHTML;
+  setURL();
 }
 
-function setDateParams(start, end) {
-  params.dateStart = setSingleDateWithOffset(start);
-  params.dateEnd = setSingleDateWithOffset(end);
+function toggleOnTypeFilter(type) {
+  params["type"] = type.innerHTML;
+  setURL();
 }
 
 function toggleOffLocationFilter() {
@@ -76,55 +131,20 @@ function toggleOffLocationFilter() {
   setURL();
 }
 
-typeMainButton.addEventListener(
-  "click",
-  () => {
-    params.type = "";
-    setURL();
-  },
-  false
-);
-
-locationMainButton.addEventListener(
-  "click",
-  () => {
-    params.location = "";
-    setURL();
-  },
-  false
-);
-
-dateSelector.addEventListener(
-  "click",
-  () => {
-    const daysAgo = dateSelector.value;
-    setDateParams(daysAgo, -1);
-    setURL();
-  },
-  false
-);
-
-for (let index = 0; index < types.length; index++) {
-  if (params.type === "") {
-    types[index].addEventListener(
-      "click",
-      () => toggleOnTypeFilter(types[index]),
-      false
-    );
-  } else {
-    types[index].parentElement.style.display = "none";
-  }
-
-  if (params.location === "") {
-    locations[index].addEventListener(
-      "click",
-      () => toggleOnLocationFilter(locations[index]),
-      false
-    );
-  } else {
-    locations[index].parentElement.style.display = "none";
-  }
+function formatDate(date) {
+  return new Date(date).toISOString().slice(0, 10);
 }
+
+dateSet.addEventListener(
+  "click",
+  () => {
+    params.dateStart = formatDate(dateStart.value);
+    params.dateEnd = formatDate(dateEnd.value);
+
+    setURL();
+  },
+  false
+);
 
 typeMainButton.addEventListener(
   "click",
@@ -144,19 +164,7 @@ locationMainButton.addEventListener(
   false
 );
 
-if (params.type !== "") {
-  typeMainButton.style.display = "inline";
-  typeMain.style.display = "inline";
-  typeMainButton.innerHTML = params.type + typeMainButton.innerHTML;
-}
-
-if (params.location !== "") {
-  locationMainButton.style.display = "inline";
-  locationMain.style.display = "inline";
-  locationMainButton.innerHTML = params.location + locationMainButton.innerHTML;
-}
-
-sortCategory.addEventListener(
+sortSet.addEventListener(
   "click",
   () => {
     handleSortChange();
@@ -166,17 +174,33 @@ sortCategory.addEventListener(
 
 function handleSortChange() {
   params.sort = sortCategory.value;
-  params.direction = "dsc";
-
-  if (params.sort === "recent") {
-    params.sort = "datetime";
-    params.direction = "dsc";
-  }
-
-  if (params.sort === "oldest") {
-    params.sort = "datetime";
-    params.direction = "asc";
-  }
 
   setURL();
 }
+
+function initDates() {
+  if (params.dateStart) {
+    dateStart.value = params.dateStart;
+  } else {
+    let yesterday = new Date();
+    yesterday.setMinutes(
+      yesterday.getMinutes() - yesterday.getTimezoneOffset()
+    );
+    yesterday.setDate(yesterday.getDate() - 1);
+    dateStart.valueAsDate = yesterday;
+    params.dateStart = formatDate(yesterday);
+  }
+
+  if (params.dateEnd) {
+    dateEnd.value = params.dateEnd;
+  } else {
+    let today = new Date();
+    today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
+    dateEnd.valueAsDate = today;
+    params.dateEnd = formatDate(today);
+  }
+}
+
+setParams();
+setButtonsBasedOnParams();
+initDates();

@@ -9,19 +9,27 @@ html
         div#locationMainButton.location.roundButton
       div#typeMain All Calls For Type: 
         div#typeMainButton.type.roundButton
-      select#dateSelector
-        option(value=1) 1 Day
-        option(value=7) 7 Days
-        option(value=30) 30 Days
+
 
       select#sortCategory
-        option(value="recent") Most Recent 
-        option(value="oldest") Oldest
+        option(value="datetime") Date / Time
         option(value="typeCount") Type Count
         option(value="locationCount") Location Count
         option(value="location") Location A-Z
         option(value="type") Type A-Z
 
+      button#sortDirection
+      button(id="sortSet", name="sortSet") Set Sort
+
+
+      label(for="dateStart") Start date:
+      input(type="date", id="dateStart", name="dateStart")     
+
+
+      label(for="dateEnd") End date:
+      input(type="date", id="dateEnd", name="dateEnd")     
+
+      button(id="dateSet", name="dateSet") Set Date
 
     main
     section#calls
