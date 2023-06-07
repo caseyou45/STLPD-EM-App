@@ -49,7 +49,6 @@ function sortDTOsByCountsIfRequested(callsAsDTOs, query) {
             callsAsDTOs.sort((a, b) => b.locationCount - a.locationCount);
         }
     }
-    console.log(query);
     return callsAsDTOs;
 }
 function createDTOs(calls) {

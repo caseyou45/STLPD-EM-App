@@ -46,7 +46,6 @@ function sortDTOsByCountsIfRequested(
     }
   }
 
-  console.log(query);
   return callsAsDTOs;
 }
 

@@ -2,34 +2,44 @@ html
   head
     style
       include styles.css
-    title= title
+    title STL Emergency Calls
     body 
+
+    h1 St Louis Metro PD Emergency Calls 
+    h2 Organized, Filterable, Sortable 
+    p.error
     div#control
-      div#locationMain All Calls From Location: 
-        div#locationMainButton.location.roundButton
-      div#typeMain All Calls For Type: 
-        div#typeMainButton.type.roundButton
 
 
-      select#sortCategory
-        option(value="datetime") Date / Time
-        option(value="typeCount") Type Count
-        option(value="locationCount") Location Count
-        option(value="location") Location A-Z
-        option(value="type") Type A-Z
-
-      button#sortDirection
-      button(id="sortSet", name="sortSet") Set Sort
+      div.date
+        label(for="dateStart") From: 
+        input(type="date", id="dateStart", name="dateStart")     
 
 
-      label(for="dateStart") Start date:
-      input(type="date", id="dateStart", name="dateStart")     
+        label(for="dateEnd") To:
+        input(type="date", id="dateEnd", name="dateEnd")     
+
+        button(id="dateSet", name="dateSet") Set Date
 
 
-      label(for="dateEnd") End date:
-      input(type="date", id="dateEnd", name="dateEnd")     
+      div.sort
+        select#sortCategory
+          option(value="datetime") Date / Time
+          option(value="typeCount") Type Count
+          option(value="locationCount") Location Count
+          option(value="location") Location A-Z
+          option(value="type") Type A-Z
 
-      button(id="dateSet", name="dateSet") Set Date
+        button#sortDirection
+        button(id="sortSet", name="sortSet") Sort
+
+
+      div.filter
+        div#typeMain All Calls For Type: 
+          button#typeMainButton.type.roundButton 
+        div#locationMain All Calls From Location: 
+          button#locationMainButton.location.roundButton
+
 
     main
     section#calls
@@ -37,7 +47,7 @@ html
         div.card
           div.roundButton=call.time + " --- " + call.date 
           div.typeContainer
-              span.type.roundButton=call.type
+              button.type.roundButton=call.type
               if originalQuery.location
                 if call.typeCount > 1
                   span=call.typeCount+ " calls of this type from this location"
@@ -49,7 +59,7 @@ html
                 else 
                   span=call.typeCount + " call of this type from any location"
           div.locationContainer
-            span.location.roundButton=call.location
+            button.location.roundButton=call.location
             if originalQuery.type
               if call.locationCount > 1
                 span=call.locationCount+ " calls from this location of this type"

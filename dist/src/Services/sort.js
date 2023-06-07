@@ -13,7 +13,7 @@ exports.sortDTOsByCounts = sortDTOsByCounts;
 //This will sort responses by datetime or type/location alphabetically
 //It does datetime most recent by default
 function getSortMethod(req, sort) {
-    Object.assign(sort, { datetime: -1 });
+    Object.assign(sort, { datetime: 1 });
     if (req.query && req.query.sort && req.query.direction) {
         if (req.query.sort === "datetime" ||
             req.query.sort === "type" ||

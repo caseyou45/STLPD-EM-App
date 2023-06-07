@@ -18,16 +18,7 @@ const params = {
   direction: "",
   dateStart: "",
   dateEnd: "",
-  groupBy: "",
 };
-
-sortDirection.addEventListener(
-  "click",
-  () => {
-    handleDirectionButton();
-  },
-  false
-);
 
 function handleDirectionButton() {
   if (params.direction === "" || params.direction === "asc") {
@@ -92,10 +83,54 @@ function setButtonsBasedOnParams() {
   } else {
     sortDirection.innerHTML = "&#8595;";
   }
+
+  document.querySelectorAll("#sortCategory option").forEach((opt) => {
+    if (params.type) {
+      if (opt.value.includes("type")) {
+        opt.disabled = true;
+      }
+    }
+
+    if (params.location) {
+      if (opt.value.includes("location")) {
+        opt.disabled = true;
+      }
+    }
+  });
 }
 
+function initDates() {
+  if (params.dateStart) {
+    dateStart.value = params.dateStart;
+  } else {
+    let yesterday = new Date();
+    yesterday.setMinutes(
+      yesterday.getMinutes() - yesterday.getTimezoneOffset()
+    );
+    yesterday.setDate(yesterday.getDate() - 1);
+    dateStart.valueAsDate = yesterday;
+    params.dateStart = formatDate(yesterday);
+  }
+
+  if (params.dateEnd) {
+    dateEnd.value = params.dateEnd;
+  } else {
+    let today = new Date();
+    today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
+    dateEnd.valueAsDate = today;
+    params.dateEnd = formatDate(today);
+  }
+}
 async function setURL() {
   let append = "?";
+
+  if (
+    (params.location && params.sort.includes("location")) ||
+    (params.type && params.sort.includes("type"))
+  ) {
+    params.sort = "datetime";
+  }
+
   for (let [key, value] of Object.entries(params)) {
     if (value) {
       //MongoDB no likey parenthesis. So we don't include them in the search. Nothing of value is lost.
@@ -109,11 +144,7 @@ async function setURL() {
 
   if (append[append.length - 1] === "&") append = append.slice(0, -1);
 
-  if (params.groupBy !== "") {
-    window.location = "/group" + append;
-  } else {
-    window.location = "/" + append;
-  }
+  window.location = "/" + append;
 }
 
 function toggleOnLocationFilter(loc) {
@@ -126,8 +157,8 @@ function toggleOnTypeFilter(type) {
   setURL();
 }
 
-function toggleOffLocationFilter() {
-  params.location = "";
+function handleSortChange() {
+  params.sort = sortCategory.value;
   setURL();
 }
 
@@ -135,12 +166,19 @@ function formatDate(date) {
   return new Date(date).toISOString().slice(0, 10);
 }
 
+sortDirection.addEventListener(
+  "click",
+  () => {
+    handleDirectionButton();
+  },
+  false
+);
+
 dateSet.addEventListener(
   "click",
   () => {
     params.dateStart = formatDate(dateStart.value);
     params.dateEnd = formatDate(dateEnd.value);
-
     setURL();
   },
   false
@@ -171,35 +209,6 @@ sortSet.addEventListener(
   },
   false
 );
-
-function handleSortChange() {
-  params.sort = sortCategory.value;
-
-  setURL();
-}
-
-function initDates() {
-  if (params.dateStart) {
-    dateStart.value = params.dateStart;
-  } else {
-    let yesterday = new Date();
-    yesterday.setMinutes(
-      yesterday.getMinutes() - yesterday.getTimezoneOffset()
-    );
-    yesterday.setDate(yesterday.getDate() - 1);
-    dateStart.valueAsDate = yesterday;
-    params.dateStart = formatDate(yesterday);
-  }
-
-  if (params.dateEnd) {
-    dateEnd.value = params.dateEnd;
-  } else {
-    let today = new Date();
-    today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
-    dateEnd.valueAsDate = today;
-    params.dateEnd = formatDate(today);
-  }
-}
 
 setParams();
 setButtonsBasedOnParams();

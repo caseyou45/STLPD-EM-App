@@ -1,3 +1,7 @@
+button {
+    border: none;
+}
+
 .card {
     border-radius: 6px;
     padding: 10px;
@@ -119,4 +123,78 @@
 .typeContainer :nth-child(2) {
     font-size: 13px;
     font-weight: 600;
+}
+
+.date label {
+    color: blue;
+}
+
+#dateStart,
+#dateEnd {
+    background: none;
+    border: 1px solid blue;
+    box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, .2);
+    color: blue;
+    padding: 4px 8px;
+}
+
+#sortDirection:hover {
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, .3);
+}
+
+#dateSet,
+#sortSet {
+    background: blue;
+    box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, .2);
+    color: white;
+    padding: 5px 9px;
+}
+
+#dateSet:hover,
+#sortSet:hover {
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, .3);
+}
+
+#sortDirection,
+#sortCategory {
+    border: 1px solid blue;
+    background-color: white;
+    box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, .2);
+    color: blue;
+    padding: 4px 8px;
+
+}
+
+#control {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-items: left;
+
+}
+
+.date,
+.sort {
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+}
+
+
+
+.filter {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    justify-items: left;
+
+
+}
+
+.filter div {
+    color: blue;
+}
+
+.filter button {
+    margin-left: 10px;
 }

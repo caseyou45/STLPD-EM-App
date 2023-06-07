@@ -1,4 +1,4 @@
-import express, { Express, Request, Response, response } from "express";
+import express, { Express } from "express";
 import dotenv from "dotenv";
 import * as mongoose from "mongoose";
 import Home from "../src/routes/index";
