@@ -40,6 +40,14 @@ const app = (0, express_1.default)();
 app.use(cors());
 mongoose.connect(`${mongo}`);
 app.use("/", index_1.default);
+app.use((eq, res, next) => {
+    res.status(404).send("Sorry can't find that!");
+});
+app.use((err, req, res, next) => {
+    res.render("index", {
+        errorMessage: "Oops: Something Happened. We suggest clearing your search",
+    });
+});
 app.use(express_1.default.static(path.join(__dirname, "public")));
 app.set("view engine", "pug");
 (0, scrape_1.default)();

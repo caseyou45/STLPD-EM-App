@@ -7,7 +7,12 @@ html
 
     h1 St Louis Metro PD Emergency Calls 
     h2 Organized, Filterable, Sortable 
-    p.error
+
+    if errorMessage
+      p.error=errorMessage
+      button(id="clear", name="clear") Clear and Go
+
+    p.info
     div#control
 
 
@@ -43,33 +48,34 @@ html
 
     main
     section#calls
-      for call in calls
-        div.card
-          div.roundButton=call.time + " --- " + call.date 
-          div.typeContainer
-              button.type.roundButton=call.type
-              if originalQuery.location
-                if call.typeCount > 1
-                  span=call.typeCount+ " calls of this type from this location"
+      if calls
+        for call in calls
+          div.card
+            div.roundButton=call.time + " --- " + call.date 
+            div.typeContainer
+                button.type.roundButton=call.type
+                if originalQuery.location
+                  if call.typeCount > 1
+                    span=call.typeCount+ " calls of this type from this location"
+                  else 
+                    span=call.typeCount + " call of this type from this location"
                 else 
-                  span=call.typeCount + " call of this type from this location"
-              else 
-                if call.typeCount > 1
-                  span=call.typeCount + " calls of this type from any location"
+                  if call.typeCount > 1
+                    span=call.typeCount + " calls of this type from any location"
+                  else 
+                    span=call.typeCount + " call of this type from any location"
+            div.locationContainer
+              button.location.roundButton=call.location
+              if originalQuery.type
+                if call.locationCount > 1
+                  span=call.locationCount+ " calls from this location of this type"
                 else 
-                  span=call.typeCount + " call of this type from any location"
-          div.locationContainer
-            button.location.roundButton=call.location
-            if originalQuery.type
-              if call.locationCount > 1
-                span=call.locationCount+ " calls from this location of this type"
+                  span=call.locationCount + " call from this location of this type"
               else 
-                span=call.locationCount + " call from this location of this type"
-            else 
-              if call.locationCount > 1
-                span=call.locationCount + " calls from this location for any type"
-              else 
-                span=call.locationCount + " call from this location for any type"
+                if call.locationCount > 1
+                  span=call.locationCount + " calls from this location for any type"
+                else 
+                  span=call.locationCount + " call from this location for any type"
 
     script 
       include index.js

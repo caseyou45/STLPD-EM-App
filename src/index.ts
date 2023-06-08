@@ -1,4 +1,4 @@
-import express, { Express } from "express";
+import express, { Express, NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
 import * as mongoose from "mongoose";
 import Home from "../src/routes/index";
@@ -17,6 +17,16 @@ app.use(cors());
 mongoose.connect(`${mongo}`);
 
 app.use("/", Home);
+
+app.use((eq: Request, res: Response, next: NextFunction) => {
+  res.status(404).send("Sorry can't find that!");
+});
+
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  res.render("index", {
+    errorMessage: "Oops: Something Happened. We suggest clearing your search",
+  });
+});
 
 app.use(express.static(path.join(__dirname, "public")));
 

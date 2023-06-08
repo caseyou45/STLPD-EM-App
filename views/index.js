@@ -10,6 +10,7 @@ const dateEnd = document.querySelector("#dateEnd");
 const dateSet = document.querySelector("#dateSet");
 const sortSet = document.querySelector("#sortSet");
 const sortDirection = document.querySelector("#sortDirection");
+const clear = document.querySelector("#clear");
 
 const params = {
   location: "",
@@ -206,6 +207,15 @@ sortSet.addEventListener(
   "click",
   () => {
     handleSortChange();
+  },
+  false
+);
+
+clear.addEventListener(
+  "click",
+  () => {
+    Object.keys(params).forEach((i) => (params[i] = ""));
+    setURL();
   },
   false
 );

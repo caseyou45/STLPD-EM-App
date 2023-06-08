@@ -13,13 +13,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const call_1 = __importDefault(require("../services/call"));
-function default_1(req, res) {
+function default_1(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
-        const callsAsDTOs = yield (0, call_1.default)(req, res);
-        return res.render("index", {
-            calls: callsAsDTOs,
-            originalQuery: req.query,
-        });
+        try {
+            const callsAsDTOs = yield (0, call_1.default)(req, res);
+            return res.render("index", {
+                calls: callsAsDTOs,
+                originalQuery: req.query,
+            });
+        }
+        catch (error) {
+            next(error);
+        }
     });
 }
 exports.default = default_1;
