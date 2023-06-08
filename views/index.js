@@ -211,15 +211,16 @@ sortSet.addEventListener(
   false
 );
 
-clear.addEventListener(
-  "click",
-  () => {
-    Object.keys(params).forEach((i) => (params[i] = ""));
-    setURL();
-  },
-  false
-);
-
+if (clear) {
+  clear.addEventListener(
+    "click",
+    () => {
+      Object.keys(params).forEach((i) => (params[i] = ""));
+      setURL();
+    },
+    false
+  );
+}
 setParams();
 setButtonsBasedOnParams();
 initDates();
