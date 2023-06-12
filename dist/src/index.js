@@ -39,6 +39,8 @@ dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(cors());
 mongoose.connect(`${mongo}`);
+app.use(express_1.default.static("public"));
+app.set("view engine", "pug");
 app.use("/", index_1.default);
 app.use((eq, res, next) => {
     res.status(404).send("Sorry can't find that!");
@@ -48,8 +50,6 @@ app.use((err, req, res, next) => {
         errorMessage: "Oops: Something Happened. We suggest clearing your search",
     });
 });
-app.use(express_1.default.static(path.join(__dirname, "public")));
-app.set("view engine", "pug");
 (0, scrape_1.default)();
 app.listen(port, () => {
     console.log(` http://localhost:${port}`);

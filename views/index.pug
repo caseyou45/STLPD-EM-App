@@ -14,8 +14,6 @@ html
 
     p.info
     div#control
-
-
       div.date
         label(for="dateStart") From: 
         input(type="date", id="dateStart", name="dateStart")     
@@ -28,6 +26,7 @@ html
 
 
       div.sort
+        label(for="sortCategory") Sort: 
         select#sortCategory
           option(value="datetime") Date / Time
           option(value="typeCount") Type Count
@@ -39,21 +38,23 @@ html
         button(id="sortSet", name="sortSet") Sort
 
 
-      div.filter
-        div#typeMain All Calls For Type: 
-          button#typeMainButton.type.roundButton 
-        div#locationMain All Calls From Location: 
-          button#locationMainButton.location.roundButton
+    
+      div#filter
+        p Filter: 
+        div.typeContainer
+          button#typeMainButton.type.buttonBox
+        div.locationContainer
+          button#locationMainButton.location.buttonBox
 
 
-    main
+    mains
     section#calls
       if calls
         for call in calls
           div.card
-            div.roundButton=call.time + " --- " + call.date 
+            div=call.time + " --- " + call.date 
             div.typeContainer
-                button.type.roundButton=call.type
+                button.type.buttonBox=call.type
                 if originalQuery.location
                   if call.typeCount > 1
                     span=call.typeCount+ " calls of this type from this location"
@@ -65,7 +66,7 @@ html
                   else 
                     span=call.typeCount + " call of this type from any location"
             div.locationContainer
-              button.location.roundButton=call.location
+              button.location.buttonBox=call.location
               if originalQuery.type
                 if call.locationCount > 1
                   span=call.locationCount+ " calls from this location of this type"

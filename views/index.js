@@ -1,9 +1,8 @@
-const locations = document.getElementsByClassName("location");
-const types = document.getElementsByClassName("type");
+const callsSection = document.querySelector("#calls");
+const locations = callsSection.getElementsByClassName("location");
+const types = callsSection.getElementsByClassName("type");
 const typeMainButton = document.querySelector("#typeMainButton");
 const locationMainButton = document.querySelector("#locationMainButton");
-const typeMain = document.querySelector("#typeMain");
-const locationMain = document.querySelector("#locationMain");
 const sortCategory = document.querySelector("#sortCategory");
 const dateStart = document.querySelector("#dateStart");
 const dateEnd = document.querySelector("#dateEnd");
@@ -63,14 +62,12 @@ function setButtonsBasedOnParams() {
   }
 
   if (params.type !== "") {
-    typeMainButton.style.display = "inline";
-    typeMain.style.display = "inline";
+    typeMainButton.style.display = "flex";
     typeMainButton.innerHTML = params.type + typeMainButton.innerHTML;
   }
 
   if (params.location !== "") {
-    locationMainButton.style.display = "inline";
-    locationMain.style.display = "inline";
+    locationMainButton.style.display = "flex";
     locationMainButton.innerHTML =
       params.location + locationMainButton.innerHTML;
   }

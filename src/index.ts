@@ -16,6 +16,10 @@ app.use(cors());
 
 mongoose.connect(`${mongo}`);
 
+app.use(express.static("public"));
+
+app.set("view engine", "pug");
+
 app.use("/", Home);
 
 app.use((eq: Request, res: Response, next: NextFunction) => {
@@ -27,10 +31,6 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     errorMessage: "Oops: Something Happened. We suggest clearing your search",
   });
 });
-
-app.use(express.static(path.join(__dirname, "public")));
-
-app.set("view engine", "pug");
 
 startCallRecording();
 

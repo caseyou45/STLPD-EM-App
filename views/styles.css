@@ -1,103 +1,70 @@
-button {
-    border: none;
-}
-
 .card {
     padding: 10px;
-
     margin: 2rem 0;
     width: fit-content;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
-
-
-
+    box-shadow: 3px 3px 2px 1px rgba(0, 0, 0, .8);
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: .5rem;
 }
 
-.roundButton {
+.buttonBox {
     box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, .2);
-    padding: 4px 5px 4px 12px;
+    gap: .75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     width: fit-content;
-    transition: background-color 0.5s ease-in-out;
-    margin-right: 10px;
+    padding: .5rem 1rem .5rem .45rem;
+    cursor: pointer;
+
 }
 
 
 .type::before {
-    content: "\01F4DE";
-    color: black;
-    margin-right: 10px;
-
+    background-image: url('phone.png');
+    background-size: 20px 20px;
+    content: "";
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 20px;
+    height: 20px;
 }
+
 
 .location::before {
-    content: "\1F3E0";
-    margin-right: 10px;
-    color: black;
-
-
+    background-image: url('loc.png');
+    background-size: 20px 20px;
+    content: "";
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 20px;
+    height: 20px;
 }
 
-.type::after {
-    content: "+";
-    box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, .2);
-    border-radius: 50%;
-    padding: 1px 3.5px .75px 4px;
-    margin-left: 10px;
-}
-
-.type::after:hover {
-    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, .2);
-
-}
-
-
-
-#typeMainButton::after {
-    content: "\2715";
-    padding: 3.5px 4px .75px 4px;
-    font-size: 12px;
-
-}
-
-#locationMainButton::after {
-    content: "\2715";
-    padding: 3.5px 4px .75px 4px;
-    font-size: 12px;
-
-}
-
+.type::after,
 .location::after {
-    content: "+";
-    box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, .2);
-    border-radius: 50%;
-    padding: 1px 3.5px .75px 4px;
-    margin-left: 10px;
+    background-image: url('add.png');
+    background-size: 20px 20px;
+    content: "";
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 20px;
+    height: 20px;
 }
 
-.location::after:hover {
-    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, .2);
+#control .type::after,
+#control .location::after {
+    background-image: url('close.png');
 
 }
 
 
-
-.type {}
-
-.type:hover {}
-
-.location {}
-
-.location:hover {}
-
-
-
-
-.callGroupSub {
-    display: flex;
-    flex-direction: row;
-    gap: .5rem;
-
-}
 
 
 #typeMainButton {
@@ -108,18 +75,12 @@ button {
     display: none;
 }
 
-#typeMain {
-    display: none;
-}
-
-#locationMain {
-    display: none;
-}
-
 
 .typeContainer,
 .locationContainer {
-    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
 }
 
 .locationContainer :nth-child(2),
@@ -128,7 +89,6 @@ button {
     font-weight: 600;
 }
 
-.date label {}
 
 #dateStart,
 #dateEnd {
@@ -177,18 +137,18 @@ button {
 
 
 
-.filter {
-    display: flex;
-    flex-direction: column;
-    gap: .75rem;
-    justify-items: left;
 
-
+button {
+    border: none;
+    background: none;
+    border: .5px solid black;
 }
 
-.filter div {}
+#filter {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-items: left;
+    align-items: center;
 
-
-.filter button {
-    margin-left: 10px;
 }
