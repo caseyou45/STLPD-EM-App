@@ -5,22 +5,28 @@ function parseQueryFromURL(req, query) {
     if (req.query && (req.query.startDate || req.query.dateEnd)) {
         Object.assign(query, { datetime: {} });
         if (req.query.dateStart) {
-            const dateStart = req.query.dateStart;
-            Object.assign(query.datetime, { $gte: new Date(dateStart) });
+            const ds = req.query.dateStart;
+            const dateStart = new Date(ds);
+            dateStart.setDate(dateStart.getDate() - 1);
+            Object.assign(query.datetime, { $gte: dateStart });
         }
         if (req.query.dateEnd) {
-            const dateEnd = req.query.dateEnd;
+            const de = req.query.dateEnd;
+            const dateEnd = new Date(de);
+            dateEnd.setDate(dateEnd.getDate() + 1);
             Object.assign(query.datetime, { $lt: new Date(dateEnd) });
         }
         //By default, just get the past days worth of calls
     }
     else if (req.query && !req.query.startDate && !req.query.dateEnd) {
-        const dayAgo = new Date();
-        dayAgo.setDate(dayAgo.getDate() - 1);
+        const dateStart = new Date();
+        dateStart.setDate(dateStart.getDate() - 1);
+        const dateEnd = new Date();
+        dateEnd.setDate(dateEnd.getDate() + 1);
         Object.assign(query, {
             datetime: {
-                $gte: dayAgo,
-                $lt: new Date(),
+                $gte: dateStart,
+                $lt: dateEnd,
             },
         });
     }

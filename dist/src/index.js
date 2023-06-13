@@ -42,8 +42,8 @@ mongoose.connect(`${mongo}`);
 app.use(express_1.default.static("public"));
 app.set("view engine", "pug");
 app.use("/", index_1.default);
-app.use((eq, res, next) => {
-    res.status(404).send("Sorry can't find that!");
+app.use((req, res, next) => {
+    res.render("404");
 });
 app.use((err, req, res, next) => {
     res.render("index", {

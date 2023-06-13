@@ -22,8 +22,8 @@ app.set("view engine", "pug");
 
 app.use("/", Home);
 
-app.use((eq: Request, res: Response, next: NextFunction) => {
-  res.status(404).send("Sorry can't find that!");
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.render("404");
 });
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
