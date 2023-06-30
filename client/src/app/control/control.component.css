@@ -57,17 +57,17 @@ button {
 
 
 .type::before {
-    background-image: url('loc.png');
+    background-image: url('../../assets/images/loc.png');
 }
 
 
 .location::before {
-    background-image: url('loc.png');
+    background-image: url('../../assets/images/loc.png');
 }
 
 .type::after,
 .location::after {
-    background-image: url('add.png');
+    background-image: url('../../assets/images/add.png');
     background-size: 20px 20px;
     content: "";
     display: inline-block;
@@ -79,7 +79,7 @@ button {
 
 #control .type::after,
 #control .location::after {
-    background-image: url('close.png');
+    background-image: url('../../assets/images/close.png');
 
 }
 

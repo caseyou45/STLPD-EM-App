@@ -1,0 +1,45 @@
+<section>
+    <div *ngFor="let call of calls">
+        <div class="card">
+            <div>{{ call.time }} --- {{ call.date }}</div>
+            <div class="typeContainer">
+                <button class="type buttonBox">{{ call.type }}</button>
+                <ng-container *ngIf="originalQuery.location">
+                    <ng-container *ngIf="call.typeCount > 1">
+                        <span>{{ call.typeCount }} calls of this type from this location</span>
+                    </ng-container>
+                    <ng-container *ngIf="call.typeCount === 1">
+                        <span>{{ call.typeCount }} call of this type from this location</span>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="!originalQuery.location">
+                    <ng-container *ngIf="call.typeCount > 1">
+                        <span>{{ call.typeCount }} calls of this type from any location</span>
+                    </ng-container>
+                    <ng-container *ngIf="call.typeCount === 1">
+                        <span>{{ call.typeCount }} call of this type from any location</span>
+                    </ng-container>
+                </ng-container>
+            </div>
+            <div class="locationContainer">
+                <button class="location buttonBox">{{ call.location }}</button>
+                <ng-container *ngIf="originalQuery.type">
+                    <ng-container *ngIf="call.locationCount > 1">
+                        <span>{{ call.locationCount }} calls from this location of this type</span>
+                    </ng-container>
+                    <ng-container *ngIf="call.locationCount === 1">
+                        <span>{{ call.locationCount }} call from this location of this type</span>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="!originalQuery.type">
+                    <ng-container *ngIf="call.locationCount > 1">
+                        <span>{{ call.locationCount }} calls from this location for any type</span>
+                    </ng-container>
+                    <ng-container *ngIf="call.locationCount === 1">
+                        <span>{{ call.locationCount }} call from this location for any type</span>
+                    </ng-container>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</section>

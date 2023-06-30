@@ -11,24 +11,25 @@ html(lang="en")
       h2 Organized, Filterable, Sortable 
 
       if errorMessage
-        p.error=errorMessage
-        button(id="clear", name="clear") Clear and Go
+        div.error.card
+          p=errorMessage
+          button(id="clear", name="clear") Clear and Go
 
       p.info
-      div#control.card
+      div.control.card
         div.date
-          label(for="dateStart") From: 
+          span From: 
           input(type="date", id="dateStart", name="dateStart")     
 
 
-          label(for="dateEnd") To:
+          span To:
           input(type="date", id="dateEnd", name="dateEnd")     
 
           button(id="dateSet", name="dateSet") Set Date
 
 
         div.sort
-          label(for="sortCategory") Sort: 
+          span Sort: 
           select#sortCategory
             option(value="datetime") Date / Time
             option(value="typeCount") Type Count
@@ -41,8 +42,8 @@ html(lang="en")
 
 
       
-        div#filter
-          p Filter: 
+        div.filter
+          span Filter: 
           div.typeContainer
             button#typeMainButton.type.buttonBox
           div.locationContainer

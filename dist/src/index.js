@@ -47,7 +47,7 @@ app.use((req, res, next) => {
 });
 app.use((err, req, res, next) => {
     res.render("index", {
-        errorMessage: "Oops: Something Happened. We suggest clearing your search",
+        errorMessage: "Oops: Something Happened. We suggest clearing your search.",
     });
 });
 (0, scrape_1.default)();

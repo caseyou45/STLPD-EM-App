@@ -28,7 +28,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.render("index", {
-    errorMessage: "Oops: Something Happened. We suggest clearing your search",
+    errorMessage: "Oops: Something Happened. We suggest clearing your search.",
   });
 });
 

@@ -1,0 +1,36 @@
+<p class="info"></p>
+<div class="control card">
+    <div class="date">
+        <span>From:</span>
+        <input type="date" id="dateStart" name="dateStart" [value]="dateStart" />
+
+        <span>To:</span>
+        <input type="date" id="dateEnd" name="dateEnd" [value]="dateEnd">
+
+        <button id="dateSet" name="dateSet" (click)="setDates()">Set Date</button>
+    </div>
+
+    <div class="sort">
+        <span>Sort:</span>
+        <select id="sortCategory">
+            <option value="datetime">Date / Time</option>
+            <option value="typeCount">Type Count</option>
+            <option value="locationCount">Location Count</option>
+            <option value="location">Location A-Z</option>
+            <option value="type">Type A-Z</option>
+        </select>
+
+        <button id="sortDirection"></button>
+        <button id="sortSet" name="sortSet">Sort</button>
+    </div>
+
+    <div class="filter">
+        <span>Filter:</span>
+        <div class="typeContainer">
+            <button id="typeMainButton" class="type buttonBox"></button>
+        </div>
+        <div class="locationContainer">
+            <button id="locationMainButton" class="location buttonBox"></button>
+        </div>
+    </div>
+</div>

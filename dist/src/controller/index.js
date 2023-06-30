@@ -17,10 +17,11 @@ function default_1(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const callsAsDTOs = yield (0, call_1.default)(req, res);
-            return res.render("index", {
-                calls: callsAsDTOs,
-                originalQuery: req.query,
-            });
+            // return res.render("index", {
+            //   calls: callsAsDTOs,
+            //   originalQuery: req.query,
+            // });
+            return res.json(callsAsDTOs);
         }
         catch (error) {
             next(error);

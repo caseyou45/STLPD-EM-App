@@ -10,10 +10,12 @@ export default async function (
   try {
     const callsAsDTOs: any = await getWithoutGrouping(req, res);
 
-    return res.render("index", {
-      calls: callsAsDTOs,
-      originalQuery: req.query,
-    });
+    // return res.render("index", {
+    //   calls: callsAsDTOs,
+    //   originalQuery: req.query,
+    // });
+
+    return res.json(callsAsDTOs);
   } catch (error) {
     next(error);
   }
