@@ -3,7 +3,7 @@
         <div class="card">
             <div>{{ call.time }} --- {{ call.date }}</div>
             <div class="typeContainer">
-                <button class="type buttonBox">{{ call.type }}</button>
+                <button class="type buttonBox" (click)="updateQueryWithType(call.type)">{{ call.type }}</button>
                 <ng-container *ngIf="originalQuery.location">
                     <ng-container *ngIf="call.typeCount > 1">
                         <span>{{ call.typeCount }} calls of this type from this location</span>
@@ -22,7 +22,8 @@
                 </ng-container>
             </div>
             <div class="locationContainer">
-                <button class="location buttonBox">{{ call.location }}</button>
+                <button class="location buttonBox" (click)="updateQueryWithLocation(call.location)">{{ call.location
+                    }}</button>
                 <ng-container *ngIf="originalQuery.type">
                     <ng-container *ngIf="call.locationCount > 1">
                         <span>{{ call.locationCount }} calls from this location of this type</span>

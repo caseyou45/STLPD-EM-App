@@ -12,7 +12,7 @@
 
     <div class="sort">
         <span>Sort:</span>
-        <select id="sortCategory">
+        <select id="sortCategory" [(ngModel)]="selectedSortCategory" name="selectedSortCategory">
             <option value="datetime">Date / Time</option>
             <option value="typeCount">Type Count</option>
             <option value="locationCount">Location Count</option>
@@ -20,8 +20,10 @@
             <option value="type">Type A-Z</option>
         </select>
 
-        <button id="sortDirection"></button>
-        <button id="sortSet" name="sortSet">Sort</button>
+        <button id="sortDirection" (click)="toggleSortDirection()">
+            <span>{{ getArrowIcon() }}</span>
+        </button>
+        <button id="sortSet" name="sortSet" (click)="setSort()">Sort</button>
     </div>
 
     <div class="filter">

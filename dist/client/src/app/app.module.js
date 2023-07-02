@@ -47,11 +47,13 @@ const calls_component_1 = require("./calls/calls.component");
 const calls_service_1 = require("./calls.service");
 const http_1 = require("@angular/common/http");
 const control_component_1 = require("./control/control.component");
+const forms_1 = require("@angular/forms");
+const query_service_1 = require("./query.service");
 exports.AppModule = (() => {
     let _classDecorators = [(0, core_1.NgModule)({
             declarations: [app_component_1.AppComponent, calls_component_1.CallsComponent, control_component_1.ControlComponent],
-            imports: [platform_browser_1.BrowserModule, app_routing_module_1.AppRoutingModule, http_1.HttpClientModule],
-            providers: [calls_service_1.CallsService],
+            imports: [platform_browser_1.BrowserModule, app_routing_module_1.AppRoutingModule, http_1.HttpClientModule, forms_1.FormsModule],
+            providers: [calls_service_1.CallsService, query_service_1.QueryService],
             bootstrap: [app_component_1.AppComponent],
         })];
     let _classDescriptor;

@@ -50,16 +50,50 @@ exports.ControlComponent = (() => {
     let _classExtraInitializers = [];
     let _classThis;
     var ControlComponent = _classThis = class {
-        constructor() {
+        constructor(queryService) {
+            this.queryService = queryService;
+            this.selectedSortCategory = 'datetime';
+            this.sortDirection = 'asc';
+            this.originalQuery = {
+                type: '',
+                location: '',
+            };
             const today = new Date();
             const yesterday = new Date(today);
             yesterday.setDate(yesterday.getDate() - 1);
             this.dateStart = yesterday.toISOString().slice(0, 10);
             this.dateEnd = today.toISOString().slice(0, 10);
         }
+        ngOnInit() {
+            this.queryService.query$.subscribe((query) => {
+                this.originalQuery = query;
+                this.updateFilterButtonValues();
+            });
+        }
+        updateFilterButtonValues() {
+            const typeButton = document.getElementById('typeMainButton');
+            const locationButton = document.getElementById('locationMainButton');
+            if (this.originalQuery.type != ' ') {
+                typeButton.innerText = this.originalQuery.type;
+                typeButton.style.display = 'flex';
+            }
+            if (this.originalQuery.location != ' ') {
+                locationButton.innerText = this.originalQuery.location;
+                locationButton.style.display = 'flex';
+            }
+        }
         setDates() {
             console.log('Start Date:', this.dateStart);
             console.log('End Date:', this.dateEnd);
+        }
+        setSort() {
+            console.log(this.selectedSortCategory);
+        }
+        toggleSortDirection() {
+            this.sortDirection = this.sortDirection === 'asc' ? 'dsc' : 'asc';
+        }
+        getArrowIcon() {
+            return this.sortDirection === 'asc' ? '↑' : '↓';
         }
     };
     __setFunctionName(_classThis, "ControlComponent");

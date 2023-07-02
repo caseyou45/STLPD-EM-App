@@ -38,48 +38,30 @@ var __setFunctionName = (this && this.__setFunctionName) || function (f, name, p
     return Object.defineProperty(f, "name", { configurable: true, value: prefix ? "".concat(prefix, " ", name) : name });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CallsComponent = void 0;
+exports.QueryService = void 0;
 const core_1 = require("@angular/core");
-exports.CallsComponent = (() => {
-    let _classDecorators = [(0, core_1.Component)({
-            selector: 'calls',
-            templateUrl: './calls.component.html',
-            styleUrls: ['./calls.component.css'],
+const rxjs_1 = require("rxjs");
+exports.QueryService = (() => {
+    let _classDecorators = [(0, core_1.Injectable)({
+            providedIn: 'root',
         })];
     let _classDescriptor;
     let _classExtraInitializers = [];
     let _classThis;
-    var CallsComponent = _classThis = class {
-        constructor(http, CallsService, queryService) {
-            this.http = http;
-            this.CallsService = CallsService;
-            this.queryService = queryService;
-            this.title = 'List of Calls';
-            this.originalQuery = {
-                type: '',
-                location: '',
-            };
-            this.calls = [];
+    var QueryService = _classThis = class {
+        constructor() {
+            this.querySource = new rxjs_1.Subject();
+            this.query$ = this.querySource.asObservable();
         }
-        ngOnInit() {
-            this.CallsService.getCalls().subscribe((data) => {
-                this.calls = data;
-            });
-        }
-        updateQueryWithLocation(location) {
-            this.originalQuery.location = location;
-            this.queryService.sendQuery(this.originalQuery);
-        }
-        updateQueryWithType(type) {
-            this.originalQuery.type = type;
-            this.queryService.sendQuery(this.originalQuery);
+        sendQuery(query) {
+            this.querySource.next(query);
         }
     };
-    __setFunctionName(_classThis, "CallsComponent");
+    __setFunctionName(_classThis, "QueryService");
     (() => {
         __esDecorate(null, _classDescriptor = { value: _classThis }, _classDecorators, { kind: "class", name: _classThis.name }, null, _classExtraInitializers);
-        CallsComponent = _classThis = _classDescriptor.value;
+        QueryService = _classThis = _classDescriptor.value;
         __runInitializers(_classThis, _classExtraInitializers);
     })();
-    return CallsComponent = _classThis;
+    return QueryService = _classThis;
 })();
