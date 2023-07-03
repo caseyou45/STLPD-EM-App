@@ -1,4 +1,11 @@
 "use strict";
+var __runInitializers = (this && this.__runInitializers) || function (thisArg, initializers, value) {
+    var useValue = arguments.length > 2;
+    for (var i = 0; i < initializers.length; i++) {
+        value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
+    }
+    return useValue ? value : void 0;
+};
 var __esDecorate = (this && this.__esDecorate) || function (ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
     function accept(f) { if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected"); return f; }
     var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
@@ -26,13 +33,6 @@ var __esDecorate = (this && this.__esDecorate) || function (ctor, descriptorIn, 
     if (target) Object.defineProperty(target, contextIn.name, descriptor);
     done = true;
 };
-var __runInitializers = (this && this.__runInitializers) || function (thisArg, initializers, value) {
-    var useValue = arguments.length > 2;
-    for (var i = 0; i < initializers.length; i++) {
-        value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
-    }
-    return useValue ? value : void 0;
-};
 var __setFunctionName = (this && this.__setFunctionName) || function (f, name, prefix) {
     if (typeof name === "symbol") name = name.description ? "[".concat(name.description, "]") : "";
     return Object.defineProperty(f, "name", { configurable: true, value: prefix ? "".concat(prefix, " ", name) : name });
@@ -40,6 +40,7 @@ var __setFunctionName = (this && this.__setFunctionName) || function (f, name, p
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CallsComponent = void 0;
 const core_1 = require("@angular/core");
+const core_2 = require("@angular/core");
 exports.CallsComponent = (() => {
     let _classDecorators = [(0, core_1.Component)({
             selector: 'calls',
@@ -49,34 +50,53 @@ exports.CallsComponent = (() => {
     let _classDescriptor;
     let _classExtraInitializers = [];
     let _classThis;
+    let _instanceExtraInitializers = [];
+    let _query_decorators;
+    let _query_initializers = [];
     var CallsComponent = _classThis = class {
-        constructor(http, CallsService, queryService) {
-            this.http = http;
-            this.CallsService = CallsService;
+        constructor(http, queryService, callsService) {
+            this.http = (__runInitializers(this, _instanceExtraInitializers), http);
             this.queryService = queryService;
-            this.title = 'List of Calls';
-            this.originalQuery = {
-                type: '',
+            this.callsService = callsService;
+            this.query = __runInitializers(this, _query_initializers, {
                 location: '',
-            };
+                type: '',
+                sort: '',
+                direction: '',
+                dateStart: '',
+                dateEnd: '',
+            });
+            this.title = 'List of Calls';
             this.calls = [];
         }
         ngOnInit() {
-            this.CallsService.getCalls().subscribe((data) => {
+            this.queryService.query$.subscribe((query) => {
+                this.query = query;
+                this.fetchCalls();
+            });
+            this.fetchCalls();
+        }
+        ngOnChanges() {
+            this.fetchCalls();
+        }
+        fetchCalls() {
+            this.callsService.getCalls(this.query).subscribe((data) => {
                 this.calls = data;
             });
         }
         updateQueryWithLocation(location) {
-            this.originalQuery.location = location;
-            this.queryService.sendQuery(this.originalQuery);
+            this.query.location = location;
+            this.queryService.updateQuery(this.query);
         }
         updateQueryWithType(type) {
-            this.originalQuery.type = type;
-            this.queryService.sendQuery(this.originalQuery);
+            this.query.type = type;
+            this.queryService.updateQuery(this.query);
         }
     };
     __setFunctionName(_classThis, "CallsComponent");
     (() => {
+        _query_decorators = [(0, core_2.Input)()];
+        __esDecorate(null, null, _query_decorators, { kind: "field", name: "query", static: false, private: false, access: { has: obj => "query" in obj, get: obj => obj.query, set: (obj, value) => { obj.query = value; } } }, _query_initializers, _instanceExtraInitializers);
         __esDecorate(null, _classDescriptor = { value: _classThis }, _classDecorators, { kind: "class", name: _classThis.name }, null, _classExtraInitializers);
         CallsComponent = _classThis = _classDescriptor.value;
         __runInitializers(_classThis, _classExtraInitializers);

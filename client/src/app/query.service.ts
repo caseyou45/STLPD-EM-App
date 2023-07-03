@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { Query } from 'src/models/query';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QueryService {
-  private querySource = new Subject<{ type: string; location: string }>();
+  private query = new Subject<Query>();
 
-  query$ = this.querySource.asObservable();
+  query$ = this.query.asObservable();
 
-  sendQuery(query: { type: string; location: string }) {
-    this.querySource.next(query);
+  updateQuery(query: Query) {
+    this.query.next({ ...query });
   }
 }

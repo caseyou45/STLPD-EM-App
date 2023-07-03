@@ -52,48 +52,51 @@ exports.ControlComponent = (() => {
     var ControlComponent = _classThis = class {
         constructor(queryService) {
             this.queryService = queryService;
-            this.selectedSortCategory = 'datetime';
-            this.sortDirection = 'asc';
-            this.originalQuery = {
-                type: '',
+            this.query = {
                 location: '',
+                type: '',
+                sort: '',
+                direction: '',
+                dateStart: '',
+                dateEnd: '',
             };
-            const today = new Date();
-            const yesterday = new Date(today);
-            yesterday.setDate(yesterday.getDate() - 1);
-            this.dateStart = yesterday.toISOString().slice(0, 10);
-            this.dateEnd = today.toISOString().slice(0, 10);
         }
         ngOnInit() {
             this.queryService.query$.subscribe((query) => {
-                this.originalQuery = query;
-                this.updateFilterButtonValues();
+                this.query = query;
             });
+            this.initializeDates();
+            this.query.sort = 'datetime';
+            this.query.direction = 'asc';
+            this.queryService.updateQuery(this.query);
         }
-        updateFilterButtonValues() {
-            const typeButton = document.getElementById('typeMainButton');
-            const locationButton = document.getElementById('locationMainButton');
-            if (this.originalQuery.type != ' ') {
-                typeButton.innerText = this.originalQuery.type;
-                typeButton.style.display = 'flex';
-            }
-            if (this.originalQuery.location != ' ') {
-                locationButton.innerText = this.originalQuery.location;
-                locationButton.style.display = 'flex';
-            }
+        initializeDates() {
+            const today = new Date();
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            this.query.dateStart = yesterday.toISOString().slice(0, 10);
+            this.query.dateEnd = today.toISOString().slice(0, 10);
+        }
+        clearType() {
+            this.query.type = '';
+            this.queryService.updateQuery(this.query);
+        }
+        clearLocation() {
+            this.query.location = '';
+            this.queryService.updateQuery(this.query);
         }
         setDates() {
-            console.log('Start Date:', this.dateStart);
-            console.log('End Date:', this.dateEnd);
+            this.queryService.updateQuery(this.query);
         }
         setSort() {
-            console.log(this.selectedSortCategory);
+            this.queryService.updateQuery(this.query);
         }
         toggleSortDirection() {
-            this.sortDirection = this.sortDirection === 'asc' ? 'dsc' : 'asc';
+            this.query.direction = this.query.direction === 'asc' ? 'desc' : 'asc';
+            this.queryService.updateQuery(this.query);
         }
         getArrowIcon() {
-            return this.sortDirection === 'asc' ? '↑' : '↓';
+            return this.query.direction === 'asc' ? '↑' : '↓';
         }
     };
     __setFunctionName(_classThis, "ControlComponent");

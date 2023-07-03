@@ -2,17 +2,17 @@
 <div class="control card">
     <div class="date">
         <span>From:</span>
-        <input type="date" id="dateStart" name="dateStart" [value]="dateStart" />
+        <input type="date" id="dateStart" name="dateStart" [value]="query.dateStart" />
 
         <span>To:</span>
-        <input type="date" id="dateEnd" name="dateEnd" [value]="dateEnd">
+        <input type="date" id="dateEnd" name="dateEnd" [value]="query.dateEnd">
 
         <button id="dateSet" name="dateSet" (click)="setDates()">Set Date</button>
     </div>
 
     <div class="sort">
         <span>Sort:</span>
-        <select id="sortCategory" [(ngModel)]="selectedSortCategory" name="selectedSortCategory">
+        <select id="sortCategory" [(ngModel)]="query.sort" name="selectedSortCategory">
             <option value="datetime">Date / Time</option>
             <option value="typeCount">Type Count</option>
             <option value="locationCount">Location Count</option>
@@ -29,10 +29,17 @@
     <div class="filter">
         <span>Filter:</span>
         <div class="typeContainer">
-            <button id="typeMainButton" class="type buttonBox"></button>
+            <ng-container *ngIf="query.type">
+                <button id="typeMainButton" class="type buttonBox" (click)="clearType()">{{ query.type
+                    }}</button> </ng-container>
+
         </div>
         <div class="locationContainer">
-            <button id="locationMainButton" class="location buttonBox"></button>
+            <ng-container *ngIf="query.location">
+                <button id=" locationMainButton" class="location buttonBox" (click)="clearLocation()">{{
+                    query.location }}</button> </ng-container>
+
+
         </div>
     </div>
 </div>

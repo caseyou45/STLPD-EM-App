@@ -40,6 +40,7 @@ var __setFunctionName = (this && this.__setFunctionName) || function (f, name, p
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CallsService = void 0;
 const core_1 = require("@angular/core");
+const http_1 = require("@angular/common/http");
 exports.CallsService = (() => {
     let _classDecorators = [(0, core_1.Injectable)({
             providedIn: 'root',
@@ -51,9 +52,32 @@ exports.CallsService = (() => {
         constructor(http) {
             this.http = http;
         }
-        getCalls() {
-            // Modify the return type
-            return this.http.get('http://localhost:8000');
+        getCalls(query) {
+            let params = new http_1.HttpParams();
+            if (query.location) {
+                params = params.set('location', query.location);
+            }
+            if (query.type) {
+                let q = query.type;
+                if (q.includes('(')) {
+                    let pLoc = q.indexOf('(');
+                    query.type = q.slice(0, pLoc);
+                }
+                params = params.set('type', query.type);
+            }
+            if (query.sort) {
+                params = params.set('sort', query.sort);
+            }
+            if (query.direction) {
+                params = params.set('direction', query.direction);
+            }
+            if (query.dateStart) {
+                params = params.set('dateStart', query.dateStart);
+            }
+            if (query.dateEnd) {
+                params = params.set('dateEnd', query.dateEnd);
+            }
+            return this.http.get('http://localhost:8000', { params });
         }
     };
     __setFunctionName(_classThis, "CallsService");

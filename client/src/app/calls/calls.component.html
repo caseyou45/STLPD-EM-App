@@ -4,7 +4,7 @@
             <div>{{ call.time }} --- {{ call.date }}</div>
             <div class="typeContainer">
                 <button class="type buttonBox" (click)="updateQueryWithType(call.type)">{{ call.type }}</button>
-                <ng-container *ngIf="originalQuery.location">
+                <ng-container *ngIf="query.location">
                     <ng-container *ngIf="call.typeCount > 1">
                         <span>{{ call.typeCount }} calls of this type from this location</span>
                     </ng-container>
@@ -12,7 +12,7 @@
                         <span>{{ call.typeCount }} call of this type from this location</span>
                     </ng-container>
                 </ng-container>
-                <ng-container *ngIf="!originalQuery.location">
+                <ng-container *ngIf="!query.location">
                     <ng-container *ngIf="call.typeCount > 1">
                         <span>{{ call.typeCount }} calls of this type from any location</span>
                     </ng-container>
@@ -24,7 +24,7 @@
             <div class="locationContainer">
                 <button class="location buttonBox" (click)="updateQueryWithLocation(call.location)">{{ call.location
                     }}</button>
-                <ng-container *ngIf="originalQuery.type">
+                <ng-container *ngIf="query.type">
                     <ng-container *ngIf="call.locationCount > 1">
                         <span>{{ call.locationCount }} calls from this location of this type</span>
                     </ng-container>
@@ -32,7 +32,7 @@
                         <span>{{ call.locationCount }} call from this location of this type</span>
                     </ng-container>
                 </ng-container>
-                <ng-container *ngIf="!originalQuery.type">
+                <ng-container *ngIf="!query.type">
                     <ng-container *ngIf="call.locationCount > 1">
                         <span>{{ call.locationCount }} calls from this location for any type</span>
                     </ng-container>

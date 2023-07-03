@@ -50,11 +50,11 @@ exports.QueryService = (() => {
     let _classThis;
     var QueryService = _classThis = class {
         constructor() {
-            this.querySource = new rxjs_1.Subject();
-            this.query$ = this.querySource.asObservable();
+            this.query = new rxjs_1.Subject();
+            this.query$ = this.query.asObservable();
         }
-        sendQuery(query) {
-            this.querySource.next(query);
+        updateQuery(query) {
+            this.query.next(Object.assign({}, query));
         }
     };
     __setFunctionName(_classThis, "QueryService");
