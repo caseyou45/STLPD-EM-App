@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { QueryService } from '../query.service';
 import { Query } from 'src/models/query';
+import { LoadingService } from '../loading.service';
 
 @Component({
   selector: 'control',
@@ -17,7 +18,10 @@ export class ControlComponent implements OnInit {
     dateEnd: '',
   };
 
-  constructor(private queryService: QueryService) {}
+  constructor(
+    private queryService: QueryService,
+    private loadingService: LoadingService
+  ) {}
 
   ngOnInit() {
     this.queryService.query$.subscribe((query) => {
@@ -25,8 +29,7 @@ export class ControlComponent implements OnInit {
     });
 
     this.initializeDates();
-    this.query.sort = 'datetime';
-    this.query.direction = 'asc';
+    this.initializeSort();
     this.queryService.updateQuery(this.query);
   }
 
@@ -37,6 +40,19 @@ export class ControlComponent implements OnInit {
 
     this.query.dateStart = yesterday.toISOString().slice(0, 10);
     this.query.dateEnd = today.toISOString().slice(0, 10);
+  }
+
+  initializeSort() {
+    this.query.sort = 'datetime';
+    this.query.direction = 'dsc';
+  }
+
+  resetQuery() {
+    this.initializeDates();
+    this.initializeSort();
+    this.clearType();
+    this.clearLocation();
+    this.queryService.updateQuery(this.query);
   }
 
   clearType() {

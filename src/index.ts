@@ -3,11 +3,13 @@ import dotenv from "dotenv";
 import * as mongoose from "mongoose";
 import Home from "../src/routes/index";
 import startCallRecording from "./services/scrape";
+import searchAddress from "./services/address";
 const path = require("path");
 const cors = require("cors");
 const port = process.env.PORT;
 const mongo = process.env.MONGO_URI;
 
+searchAddress("2610 Union Blvd");
 dotenv.config();
 
 const app: Express = express();

@@ -50,8 +50,9 @@ exports.ControlComponent = (() => {
     let _classExtraInitializers = [];
     let _classThis;
     var ControlComponent = _classThis = class {
-        constructor(queryService) {
+        constructor(queryService, loadingService) {
             this.queryService = queryService;
+            this.loadingService = loadingService;
             this.query = {
                 location: '',
                 type: '',
@@ -66,8 +67,7 @@ exports.ControlComponent = (() => {
                 this.query = query;
             });
             this.initializeDates();
-            this.query.sort = 'datetime';
-            this.query.direction = 'asc';
+            this.initializeSort();
             this.queryService.updateQuery(this.query);
         }
         initializeDates() {
@@ -76,6 +76,17 @@ exports.ControlComponent = (() => {
             yesterday.setDate(yesterday.getDate() - 1);
             this.query.dateStart = yesterday.toISOString().slice(0, 10);
             this.query.dateEnd = today.toISOString().slice(0, 10);
+        }
+        initializeSort() {
+            this.query.sort = 'datetime';
+            this.query.direction = 'dsc';
+        }
+        resetQuery() {
+            this.initializeDates();
+            this.initializeSort();
+            this.clearType();
+            this.clearLocation();
+            this.queryService.updateQuery(this.query);
         }
         clearType() {
             this.query.type = '';

@@ -150,19 +150,33 @@ button {
 }
 
 
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 1rem;
+}
 
-#clear {
-    border-radius: 6px;
+#reset {
     color: white;
     padding: 5px 15px;
-    background-color: red;
+    background-color: rgba(255, 0, 0, 0.7);
     box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.8);
     border: 2px solid white;
     width: fit-content;
 }
 
 
+/* #go {
+    color: white;
+    padding: 5px 15px;
+    background-color: rgba(0, 0, 255, 0.7);
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.8);
+    border: 2px solid white;
+    width: fit-content;
+}
 
+*/
 
 
 /* Navbar */

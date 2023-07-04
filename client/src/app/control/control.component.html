@@ -1,45 +1,50 @@
-<p class="info"></p>
-<div class="control card">
-    <div class="date">
-        <span>From:</span>
-        <input type="date" id="dateStart" name="dateStart" [value]="query.dateStart" />
+<div class="card">
+    <div id="control" class="control">
+        <div class="date">
+            <span>From:</span>
+            <input type="date" [(ngModel)]="query.dateStart" name="startDate" (ngModelChange)="setDates()">
 
-        <span>To:</span>
-        <input type="date" id="dateEnd" name="dateEnd" [value]="query.dateEnd">
+            <span>To:</span>
 
-        <button id="dateSet" name="dateSet" (click)="setDates()">Set Date</button>
-    </div>
+            <input type="date" [(ngModel)]="query.dateEnd" name="endDate" (ngModelChange)="setDates()">
 
-    <div class="sort">
-        <span>Sort:</span>
-        <select id="sortCategory" [(ngModel)]="query.sort" name="selectedSortCategory">
-            <option value="datetime">Date / Time</option>
-            <option value="typeCount">Type Count</option>
-            <option value="locationCount">Location Count</option>
-            <option value="location">Location A-Z</option>
-            <option value="type">Type A-Z</option>
-        </select>
-
-        <button id="sortDirection" (click)="toggleSortDirection()">
-            <span>{{ getArrowIcon() }}</span>
-        </button>
-        <button id="sortSet" name="sortSet" (click)="setSort()">Sort</button>
-    </div>
-
-    <div class="filter">
-        <span>Filter:</span>
-        <div class="typeContainer">
-            <ng-container *ngIf="query.type">
-                <button id="typeMainButton" class="type buttonBox" (click)="clearType()">{{ query.type
-                    }}</button> </ng-container>
-
+            <!-- <button id="dateSet" name="dateSet" (click)="setDates()">Set Date</button>-->
         </div>
-        <div class="locationContainer">
-            <ng-container *ngIf="query.location">
-                <button id=" locationMainButton" class="location buttonBox" (click)="clearLocation()">{{
-                    query.location }}</button> </ng-container>
 
+        <div class="sort">
+            <span>Sort:</span>
+            <select id="sortCategory" [(ngModel)]="query.sort" name="selectedSortCategory" (ngModelChange)="setSort()">
+                <option value="datetime">Date / Time</option>
+                <option value="typeCount">Type Count</option>
+                <option value="locationCount">Location Count</option>
+                <option value="location">Location A-Z</option>
+                <option value="type">Type A-Z</option>
+            </select>
 
+            <button id="sortDirection" (click)="toggleSortDirection()">
+                <span>{{ getArrowIcon() }}</span>
+            </button>
+            <!-- <button id="sortSet" name="sortSet" (click)="setSort()">Sort</button> -->
         </div>
+
+        <div class="filter">
+            <span>Filter:</span>
+            <div class="typeContainer">
+                <ng-container *ngIf="query.type">
+                    <button id="typeMainButton" class="type buttonBox" (click)="clearType()">{{ query.type
+                        }}</button> </ng-container>
+
+            </div>
+            <div class="locationContainer">
+                <ng-container *ngIf="query.location">
+                    <button id="locationMainButton" class="location buttonBox" (click)="clearLocation()">{{
+                        query.location }}</button> </ng-container>
+            </div>
+        </div>
+
+    </div>
+    <div class="buttons">
+        <!-- <button id="go" class="buttonBox" (click)="go()">Go</button> -->
+        <button id="reset" class="buttonBox" (click)="resetQuery()">Reset</button>
     </div>
 </div>

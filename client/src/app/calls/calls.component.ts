@@ -1,10 +1,17 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import {
+  Component,
+  OnChanges,
+  OnInit,
+  AfterViewInit,
+  NgZone,
+} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CallsService } from '../calls.service';
 import { ICallDTO } from '../../models/call';
 import { QueryService } from '../query.service';
 import { Query } from 'src/models/query';
 import { Input } from '@angular/core';
+import { LoadingService } from '../loading.service';
 
 @Component({
   selector: 'calls',
@@ -24,9 +31,9 @@ export class CallsComponent implements OnInit, OnChanges {
   calls: ICallDTO[] = [];
 
   constructor(
-    private http: HttpClient,
     private queryService: QueryService,
-    private callsService: CallsService
+    private callsService: CallsService,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
