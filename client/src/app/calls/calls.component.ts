@@ -26,6 +26,7 @@ export class CallsComponent implements OnInit, OnChanges {
     direction: '',
     dateStart: '',
     dateEnd: '',
+    neighborhood: '',
   };
   title = 'List of Calls';
   calls: ICallDTO[] = [];
@@ -61,6 +62,11 @@ export class CallsComponent implements OnInit, OnChanges {
 
   updateQueryWithType(type: string): void {
     this.query.type = type;
+    this.queryService.updateQuery(this.query);
+  }
+
+  updateQueryWithNeighborhood(neighborhood: string): void {
+    this.query.neighborhood = neighborhood;
     this.queryService.updateQuery(this.query);
   }
 }

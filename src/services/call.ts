@@ -44,6 +44,12 @@ function sortDTOsByCountsIfRequested(
     } else {
       callsAsDTOs.sort((a, b) => b.locationCount - a.locationCount);
     }
+  } else if (query.sort === "neighborhoodCount") {
+    if (query.direction === "asc") {
+      callsAsDTOs.sort((a, b) => a.neighborhoodCount - b.neighborhoodCount);
+    } else {
+      callsAsDTOs.sort((a, b) => b.neighborhoodCount - a.neighborhoodCount);
+    }
   }
 
   return callsAsDTOs;
@@ -64,6 +70,10 @@ function createDTOs(calls: ICall[]): ICallDTO[] {
       ).length,
       type: call.type,
       typeCount: calls.filter((obj: ICall) => obj.type === call.type).length,
+      neighborhood: call.neighborhood,
+      neighborhoodCount: calls.filter(
+        (obj: ICall) => obj.neighborhood === call.neighborhood
+      ).length,
     };
 
     dtos.push(dto);
@@ -77,6 +87,7 @@ export async function saveCall({
   eventID,
   location,
   type,
+  neighborhood,
 }: ICreateCallInput): Promise<ICall[] | void> {
   CallModel.findOne({ eventID: eventID }).then((res) => {
     if (!res) {
@@ -85,6 +96,7 @@ export async function saveCall({
         eventID,
         location,
         type,
+        neighborhood,
       }).catch((error: Error) => {
         throw error;
       });

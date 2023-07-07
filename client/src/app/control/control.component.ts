@@ -16,6 +16,7 @@ export class ControlComponent implements OnInit {
     direction: '',
     dateStart: '',
     dateEnd: '',
+    neighborhood: '',
   };
 
   constructor(

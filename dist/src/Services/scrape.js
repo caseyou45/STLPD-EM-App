@@ -39,12 +39,15 @@ const cheerio = __importStar(require("cheerio"));
 const axios_1 = __importDefault(require("axios"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const call_1 = require("./call");
+const neighborhood_1 = __importDefault(require("./neighborhood"));
 dotenv_1.default.config();
 function fetchPage() {
-    const data = axios_1.default.get(`${process.env.PD_URL}`).then((res) => {
-        return res.data;
+    return __awaiter(this, void 0, void 0, function* () {
+        const data = yield axios_1.default.get(`${process.env.PD_URL}`).then((res) => {
+            return res.data;
+        });
+        return data;
     });
-    return data;
 }
 function convertResponseDateToDom() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -57,11 +60,13 @@ function convertResponseDateToDom() {
             const eventID = $(tableCol[1]).text();
             const location = $(tableCol[2]).text();
             const type = $(tableCol[3]).text();
+            const neighborhood = yield (0, neighborhood_1.default)(location);
             yield (0, call_1.saveCall)({
                 datetime,
                 eventID,
                 location,
                 type,
+                neighborhood,
             });
         }
     });
@@ -70,7 +75,7 @@ function startCallRecording() {
     return __awaiter(this, void 0, void 0, function* () {
         setInterval(() => {
             convertResponseDateToDom();
-        }, 3000);
+        }, 60000);
     });
 }
 exports.default = startCallRecording;

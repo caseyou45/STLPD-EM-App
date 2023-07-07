@@ -5,5 +5,6 @@ interface Query {
   direction: string;
   dateStart: string;
   dateEnd: string;
+  neighborhood: string;
 }
 export { Query };

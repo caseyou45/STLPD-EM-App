@@ -41,6 +41,27 @@
                     </ng-container>
                 </ng-container>
             </div>
+            <div class="locationContainer">
+                <button class="neighborhood buttonBox" (click)="updateQueryWithNeighborhood(call.neighborhood)">{{
+                    call.neighborhood
+                    }}</button>
+                <ng-container *ngIf="query.type">
+                    <ng-container *ngIf="call.neighborhoodCount > 1">
+                        <span>{{ call.neighborhoodCount }} calls from this neighborhood for of this type</span>
+                    </ng-container>
+                    <ng-container *ngIf="call.neighborhoodCount === 1">
+                        <span>{{ call.neighborhoodCount }} call from this neighborhood for of this type</span>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="!query.type">
+                    <ng-container *ngIf="call.neighborhoodCount > 1">
+                        <span>{{ call.neighborhoodCount }} calls from this neighborhood for for any type</span>
+                    </ng-container>
+                    <ng-container *ngIf="call.neighborhoodCount === 1">
+                        <span>{{ call.neighborhoodCount }} call from this neighborhood for any type</span>
+                    </ng-container>
+                </ng-container>
+            </div>
         </div>
     </div>
 </section>

@@ -3,13 +3,13 @@ import dotenv from "dotenv";
 import * as mongoose from "mongoose";
 import Home from "../src/routes/index";
 import startCallRecording from "./services/scrape";
-import searchAddress from "./services/address";
 const path = require("path");
 const cors = require("cors");
 const port = process.env.PORT;
 const mongo = process.env.MONGO_URI;
+import CallModel, { ICall } from "./models/call";
+import withStreetNameFindNeighborhood from "./services/neighborhood";
 
-searchAddress("2610 Union Blvd");
 dotenv.config();
 
 const app: Express = express();
@@ -39,5 +39,22 @@ startCallRecording();
 app.listen(port, () => {
   console.log(` http://localhost:${port}`);
 });
+
+async function updateCalls() {
+  try {
+    const calls = await CallModel.find({}).sort({ createdAt: -1 }).limit(10);
+    for (const call of calls) {
+      const neighborhood = await withStreetNameFindNeighborhood(call.location);
+      await CallModel.updateOne(
+        { _id: call._id },
+        { $set: { neighborhood: neighborhood } }
+      ).exec();
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+updateCalls();
 
 export default app;

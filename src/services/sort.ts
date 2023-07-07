@@ -22,7 +22,8 @@ function getSortMethod(req: Request, sort: any) {
     if (
       req.query.sort === "datetime" ||
       req.query.sort === "type" ||
-      req.query.sort === "location"
+      req.query.sort === "location" ||
+      req.query.sort === "neighborhood"
     ) {
       delete sort.datetime;
       const method: any = req.query.sort || null;

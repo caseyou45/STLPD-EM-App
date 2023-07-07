@@ -5,6 +5,7 @@ interface ICall {
   eventID: string;
   location: string;
   type: string;
+  neighborhood: string;
 }
 
 interface ICallDTO {
@@ -15,6 +16,8 @@ interface ICallDTO {
   locationCount: number;
   type: string;
   typeCount: number;
+  neighborhood: string;
+  neighborhoodCount: number;
 }
 
 interface ICreateCallInput {
@@ -22,6 +25,7 @@ interface ICreateCallInput {
   eventID: ICall["eventID"];
   location: ICall["location"];
   type: ICall["type"];
+  neighborhood: ICall["neighborhood"];
 }
 
 const CallSchema = new mongoose.Schema({
@@ -29,6 +33,7 @@ const CallSchema = new mongoose.Schema({
   eventID: { type: String },
   location: { type: String },
   type: { type: String },
+  neighborhood: { type: String },
 });
 
 const Call = mongoose.model<ICall>("Call", CallSchema);

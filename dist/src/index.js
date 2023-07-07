@@ -31,12 +31,10 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const mongoose = __importStar(require("mongoose"));
 const index_1 = __importDefault(require("../src/routes/index"));
 const scrape_1 = __importDefault(require("./services/scrape"));
-const address_1 = __importDefault(require("./services/address"));
 const path = require("path");
 const cors = require("cors");
 const port = process.env.PORT;
 const mongo = process.env.MONGO_URI;
-(0, address_1.default)("2610 Union Blvd");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(cors());
@@ -56,4 +54,19 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
     console.log(` http://localhost:${port}`);
 });
+// async function updateCalls() {
+//   try {
+//     const calls = await CallModel.find({}).sort({ createdAt: -1 }).limit(10);
+//     for (const call of calls) {
+//       const neighborhood = await withStreetNameFindNeighborhood(call.location);
+//       await CallModel.updateOne(
+//         { _id: call._id },
+//         { $set: { neighborhood: neighborhood } }
+//       ).exec();
+//     }
+//   } catch (error) {
+//     console.error("Error:", error);
+//   }
+// }
+// updateCalls();
 exports.default = app;

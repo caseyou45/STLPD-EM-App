@@ -37,6 +37,10 @@ export class CallsService {
       params = params.set('dateEnd', query.dateEnd);
     }
 
+    if (query.neighborhood) {
+      params = params.set('neighborhood', query.neighborhood);
+    }
+
     return this.http.get<ICallDTO[]>('http://localhost:8000', { params });
   }
 }

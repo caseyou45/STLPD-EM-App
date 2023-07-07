@@ -30,6 +30,7 @@ const CallSchema = new mongoose.Schema({
     eventID: { type: String },
     location: { type: String },
     type: { type: String },
+    neighborhood: { type: String },
 });
 const Call = mongoose.model("Call", CallSchema);
 exports.default = Call;

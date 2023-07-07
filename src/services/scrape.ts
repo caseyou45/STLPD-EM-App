@@ -2,11 +2,12 @@ import * as cheerio from "cheerio";
 import axios from "axios";
 import dotenv from "dotenv";
 import { saveCall } from "./call";
+import withStreetNameFindNeighborhood from "./neighborhood";
 
 dotenv.config();
 
-function fetchPage(): Promise<string> {
-  const data = axios.get(`${process.env.PD_URL}`).then((res) => {
+async function fetchPage(): Promise<string> {
+  const data = await axios.get(`${process.env.PD_URL}`).then((res) => {
     return res.data;
   });
 
@@ -26,11 +27,13 @@ async function convertResponseDateToDom() {
     const location: string = $(tableCol[2]).text();
     const type: string = $(tableCol[3]).text();
 
+    const neighborhood: string = await withStreetNameFindNeighborhood(location);
     await saveCall({
       datetime,
       eventID,
       location,
       type,
+      neighborhood,
     });
   }
 }
@@ -38,7 +41,7 @@ async function convertResponseDateToDom() {
 async function startCallRecording() {
   setInterval(() => {
     convertResponseDateToDom();
-  }, 3000);
+  }, 60000);
 }
 
 export default startCallRecording;

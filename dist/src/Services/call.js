@@ -49,6 +49,14 @@ function sortDTOsByCountsIfRequested(callsAsDTOs, query) {
             callsAsDTOs.sort((a, b) => b.locationCount - a.locationCount);
         }
     }
+    else if (query.sort === "neighborhoodCount") {
+        if (query.direction === "asc") {
+            callsAsDTOs.sort((a, b) => a.neighborhoodCount - b.neighborhoodCount);
+        }
+        else {
+            callsAsDTOs.sort((a, b) => b.neighborhoodCount - a.neighborhoodCount);
+        }
+    }
     return callsAsDTOs;
 }
 function createDTOs(calls) {
@@ -63,12 +71,14 @@ function createDTOs(calls) {
             locationCount: calls.filter((obj) => obj.location === call.location).length,
             type: call.type,
             typeCount: calls.filter((obj) => obj.type === call.type).length,
+            neighborhood: call.neighborhood,
+            neighborhoodCount: calls.filter((obj) => obj.neighborhood === call.neighborhood).length,
         };
         dtos.push(dto);
     });
     return dtos;
 }
-function saveCall({ datetime, eventID, location, type, }) {
+function saveCall({ datetime, eventID, location, type, neighborhood, }) {
     return __awaiter(this, void 0, void 0, function* () {
         call_1.default.findOne({ eventID: eventID }).then((res) => {
             if (!res) {
@@ -77,6 +87,7 @@ function saveCall({ datetime, eventID, location, type, }) {
                     eventID,
                     location,
                     type,
+                    neighborhood,
                 }).catch((error) => {
                     throw error;
                 });
