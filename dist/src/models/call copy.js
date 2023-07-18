@@ -22,26 +22,23 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const dotenv_1 = __importDefault(require("dotenv"));
+exports.default = void 0;
 const mongoose = __importStar(require("mongoose"));
-const index_1 = __importDefault(require("../src/routes/index"));
-const scrape_1 = __importDefault(require("./services/scrape"));
-const cors = require("cors");
-const port = process.env.PORT;
-const mongo = process.env.MONGO_URI;
-dotenv_1.default.config();
-const app = (0, express_1.default)();
-app.use(cors());
-mongoose.connect(`${mongo}`);
-app.use(express_1.default.static("public"));
-app.use("/calls", index_1.default);
-(0, scrape_1.default)();
-app.listen(port, () => {
-    console.log(` http://localhost:${port}`);
+const MonthCrimeSummarySchema = new mongoose.Schema({
+    month: { type: String, required: true },
+    runDate: { type: Date },
+    neighborhood: { type: String, required: true },
+    category: { type: String, required: true },
+    crime: { type: String, required: true },
+    nibrs: { type: String, required: true },
+    total2023: { type: Number, required: true },
+    total2022: { type: Number, required: true },
+    diff: { type: Number, required: true },
+    change: { type: Number, required: true },
+    ytd: { type: Number, required: true },
+    fileName: { type: String, required: true },
+    fileURL: { type: String, required: true },
 });
-exports.default = app;
+exports.default = MonthCrimeSummarySchema;
+const Call = mongoose.model("MonthCrimeSummary", MonthCrimeSummarySchema);

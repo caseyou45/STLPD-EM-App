@@ -12,16 +12,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const call_1 = __importDefault(require("../services/call"));
-function default_1(req, res, next) {
+const call_1 = __importDefault(require("../models/call"));
+const neighborhood_1 = __importDefault(require("../services/neighborhood"));
+function updateCalls() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const callsAsDTOs = yield (0, call_1.default)(req, res);
-            return res.json(callsAsDTOs);
+            const calls = yield call_1.default.find({}).sort({ createdAt: -1 }).limit(10);
+            for (const call of calls) {
+                const neighborhood = yield (0, neighborhood_1.default)(call.location);
+                yield call_1.default.updateOne({ _id: call._id }, { $set: { neighborhood: neighborhood } }).exec();
+            }
         }
         catch (error) {
-            next(error);
+            console.error("Error:", error);
         }
     });
 }
-exports.default = default_1;
+exports.default = updateCalls;

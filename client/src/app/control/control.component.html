@@ -19,8 +19,6 @@
                 <option value="locationCount">Location Count</option>
                 <option value="location">Location A-Z</option>
                 <option value="type">Type A-Z</option>
-                <option value="neighborhood">Neighborhood Count</option>
-                <option value="neighborhoodCount">Neighborhood A-Z</option>
             </select>
 
             <button id="sortDirection" (click)="toggleSortDirection()">
@@ -41,6 +39,11 @@
                 <ng-container *ngIf="query.location">
                     <button id="locationMainButton" class="location buttonBox" (click)="clearLocation()">{{
                         query.location }}</button> </ng-container>
+            </div>
+            <div class="neighborhoodContainer">
+                <ng-container *ngIf="query.neighborhood">
+                    <button id="neighborhoodMainButton" class="neighborhood buttonBox" (click)="clearNeighborhood()">{{
+                        query.neighborhood }}</button> </ng-container>
             </div>
         </div>
 

@@ -3,7 +3,6 @@ interface ICall {
   eventID: string;
   location: string;
   type: string;
-  neighborhood: string;
 }
 
 interface ICallDTO {
@@ -23,7 +22,6 @@ interface ICreateCallInput {
   eventID: ICall['eventID'];
   location: ICall['location'];
   type: ICall['type'];
-  neighborhood: ICall['neighborhood'];
 }
 
 export { ICreateCallInput, ICall, ICallDTO };

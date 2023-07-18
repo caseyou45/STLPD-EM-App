@@ -17,7 +17,7 @@ const call_1 = __importDefault(require("../models/call"));
 const parse_1 = require("./parse");
 const sort_1 = require("./sort");
 const time_1 = require("./time");
-function getWithoutGrouping(req, res) {
+function getCallsByQuery(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const query = {};
         const sort = {};
@@ -31,7 +31,7 @@ function getWithoutGrouping(req, res) {
         return callsAsDTOs;
     });
 }
-exports.default = getWithoutGrouping;
+exports.default = getCallsByQuery;
 function sortDTOsByCountsIfRequested(callsAsDTOs, query) {
     if (query.sort === "typeCount") {
         if (query.direction === "asc") {

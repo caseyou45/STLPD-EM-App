@@ -44,8 +44,10 @@ button {
 }
 
 
+
 .type::before,
-.location::before {
+.location::before,
+.neighborhood::before {
     background-size: 20px 20px;
     content: "";
     display: inline-block;
@@ -57,7 +59,7 @@ button {
 
 
 .type::before {
-    background-image: url('../../assets/images/loc.png');
+    background-image: url('../../assets/images/phone.png');
 }
 
 
@@ -65,8 +67,14 @@ button {
     background-image: url('../../assets/images/loc.png');
 }
 
+
+.neighborhood::before {
+    background-image: url('../../assets/images/street.png');
+}
+
 .type::after,
-.location::after {
+.location::after,
+.neighborhood::after {
     background-image: url('../../assets/images/add.png');
     background-size: 20px 20px;
     content: "";
@@ -96,14 +104,16 @@ button {
 
 
 .typeContainer,
-.locationContainer {
+.locationContainer,
+.neighborhoodContainer {
     display: flex;
     align-items: center;
     gap: .5rem;
 }
 
 .locationContainer :nth-child(2),
-.typeContainer :nth-child(2) {
+.typeContainer :nth-child(2),
+.neighborhoodContainer :nth-child(2) {
     font-size: 13px;
     font-weight: 600;
 }

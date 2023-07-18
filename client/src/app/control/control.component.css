@@ -45,7 +45,8 @@ button {
 
 
 .type::before,
-.location::before {
+.location::before,
+.neighborhood::before {
     background-size: 20px 20px;
     content: "";
     display: inline-block;
@@ -65,8 +66,14 @@ button {
     background-image: url('../../assets/images/loc.png');
 }
 
+.neighborhood::before {
+    background-image: url('../../assets/images/street.png');
+}
+
+
 .type::after,
-.location::after {
+.location::after,
+.neighborhood::after {
     background-image: url('../../assets/images/add.png');
     background-size: 20px 20px;
     content: "";
@@ -78,33 +85,25 @@ button {
 }
 
 #control .type::after,
-#control .location::after {
+#control .location::after,
+#control .neighborhood::after {
     background-image: url('../../assets/images/close.png');
 
 }
 
 
 
-
-/* #typeMainButton {
-    display: none;
-}
-
-#locationMainButton {
-    display: none;
-}
-
-*/
-
 .typeContainer,
-.locationContainer {
+.locationContainer,
+.neighborhoodContainer {
     display: flex;
     align-items: center;
     gap: .5rem;
 }
 
 .locationContainer :nth-child(2),
-.typeContainer :nth-child(2) {
+.typeContainer :nth-child(2),
+.neighborhoodContainer :nth-child(2) {
     font-size: 13px;
     font-weight: 600;
 }
@@ -167,16 +166,7 @@ button {
 }
 
 
-/* #go {
-    color: white;
-    padding: 5px 15px;
-    background-color: rgba(0, 0, 255, 0.7);
-    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.8);
-    border: 2px solid white;
-    width: fit-content;
-}
 
-*/
 
 
 /* Navbar */

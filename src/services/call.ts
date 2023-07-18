@@ -6,7 +6,7 @@ import { parseQueryFromURL } from "./parse";
 import { getSortMethod } from "./sort";
 import { createLocalDate, createLocalTime } from "./time";
 
-export default async function getWithoutGrouping(
+export default async function getCallsByQuery(
   req: Request,
   res: Response
 ): Promise<ICallDTO[]> {

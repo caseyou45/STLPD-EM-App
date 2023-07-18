@@ -43,6 +43,12 @@ function parseQueryFromURL(req: Request, query: any) {
       location: { $regex: req.query.location, $options: "i" },
     });
   }
+
+  if (req.query && req.query.neighborhood) {
+    Object.assign(query, {
+      neighborhood: { $regex: req.query.neighborhood, $options: "i" },
+    });
+  }
 }
 
 export { parseQueryFromURL };

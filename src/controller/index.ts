@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { ICallDTO } from "../models/call";
-import getWithoutGrouping from "../services/call";
+import getCallsByQuery from "../services/call";
 
 export default async function (
   req: Request,
@@ -8,12 +7,7 @@ export default async function (
   next: NextFunction
 ) {
   try {
-    const callsAsDTOs: any = await getWithoutGrouping(req, res);
-
-    // return res.render("index", {
-    //   calls: callsAsDTOs,
-    //   originalQuery: req.query,
-    // });
+    const callsAsDTOs: any = await getCallsByQuery(req, res);
 
     return res.json(callsAsDTOs);
   } catch (error) {
