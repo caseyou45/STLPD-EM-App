@@ -64,7 +64,6 @@ export class CallsComponent implements OnInit, OnChanges {
     this.query.type = type;
     this.queryService.updateQuery(this.query);
   }
-
   updateQueryWithNeighborhood(neighborhood: string): void {
     this.query.neighborhood = neighborhood;
     this.queryService.updateQuery(this.query);

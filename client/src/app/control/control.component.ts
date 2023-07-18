@@ -66,6 +66,11 @@ export class ControlComponent implements OnInit {
     this.queryService.updateQuery(this.query);
   }
 
+  clearNeighborhood() {
+    this.query.neighborhood = '';
+    this.queryService.updateQuery(this.query);
+  }
+
   setDates() {
     this.queryService.updateQuery(this.query);
   }
