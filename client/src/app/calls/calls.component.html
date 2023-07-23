@@ -2,66 +2,27 @@
     <div *ngFor="let call of calls">
         <div class="card">
             <div>{{ call.time }} --- {{ call.date }}</div>
-            <div class="typeContainer">
-                <button class="type buttonBox" (click)="updateQueryWithType(call.type)">{{ call.type }}</button>
-                <ng-container *ngIf="query.location">
-                    <ng-container *ngIf="call.typeCount > 1">
-                        <span>{{ call.typeCount }} calls of this type from this location</span>
-                    </ng-container>
-                    <ng-container *ngIf="call.typeCount === 1">
-                        <span>{{ call.typeCount }} call of this type from this location</span>
-                    </ng-container>
-                </ng-container>
-                <ng-container *ngIf="!query.location">
-                    <ng-container *ngIf="call.typeCount > 1">
-                        <span>{{ call.typeCount }} calls of this type from any location</span>
-                    </ng-container>
-                    <ng-container *ngIf="call.typeCount === 1">
-                        <span>{{ call.typeCount }} call of this type from any location</span>
-                    </ng-container>
-                </ng-container>
-            </div>
-            <div class="locationContainer">
-                <button class="location buttonBox" (click)="updateQueryWithLocation(call.location)">{{ call.location
-                    }}</button>
-                <ng-container *ngIf="query.type">
-                    <ng-container *ngIf="call.locationCount > 1">
-                        <span>{{ call.locationCount }} calls from this location of this type</span>
-                    </ng-container>
-                    <ng-container *ngIf="call.locationCount === 1">
-                        <span>{{ call.locationCount }} call from this location of this type</span>
-                    </ng-container>
-                </ng-container>
-                <ng-container *ngIf="!query.type">
-                    <ng-container *ngIf="call.locationCount > 1">
-                        <span>{{ call.locationCount }} calls from this location for any type</span>
-                    </ng-container>
-                    <ng-container *ngIf="call.locationCount === 1">
-                        <span>{{ call.locationCount }} call from this location for any type</span>
-                    </ng-container>
-                </ng-container>
-            </div>
-            <div class="neighborhoodContainer">
-                <button class="neighborhood buttonBox" (click)="updateQueryWithNeighborhood(call.neighborhood)">{{
-                    call.neighborhood
-                    }}</button>
-                <ng-container *ngIf="query.type">
-                    <ng-container *ngIf="call.neighborhoodCount > 1">
-                        <span>{{ call.neighborhoodCount }} calls from {{ call.neighborhood }} of this type</span>
-                    </ng-container>
-                    <ng-container *ngIf="call.neighborhoodCount === 1">
-                        <span>{{ call.neighborhoodCount }} call from {{ call.neighborhood }} of this type</span>
-                    </ng-container>
-                </ng-container>
-                <ng-container *ngIf="!query.type">
-                    <ng-container *ngIf="call.neighborhoodCount > 1">
-                        <span>{{ call.neighborhoodCount }} calls from {{ call.neighborhood }} for any type</span>
-                    </ng-container>
-                    <ng-container *ngIf="call.neighborhoodCount === 1">
-                        <span>{{ call.neighborhoodCount }} call from {{ call.neighborhood }} for any type</span>
-                    </ng-container>
-                </ng-container>
-            </div>
+            <ng-container *ngIf="!query.type">
+                <div class="typeContainer">
+                    <button class="type buttonBox" (click)="updateQueryWithType(call.type)">{{ call.type }}</button>
+                    <span>{{ call.typeCount }} call{{ call.typeCount > 1 ? 's' : '' }} of this type</span>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="!query.location">
+                <div class="locationContainer">
+                    <button class="location buttonBox" (click)="updateQueryWithLocation(call.location)">{{ call.location
+                        }}</button>
+                    <span>{{ call.locationCount }} call{{ call.locationCount > 1 ? 's' : '' }} from this location</span>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="!query.neighborhood">
+                <div class="neighborhoodContainer">
+                    <button class="neighborhood buttonBox" (click)="updateQueryWithNeighborhood(call.neighborhood)">{{
+                        call.neighborhood }}</button>
+                    <span>{{ call.neighborhoodCount }} call{{ call.neighborhoodCount > 1 ? 's' : '' }} from {{
+                        call.neighborhood }}</span>
+                </div>
+            </ng-container>
         </div>
     </div>
 </section>

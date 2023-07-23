@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ICallDTO } from '../models/call';
 import { Query } from '../models/query';
 
@@ -9,6 +9,7 @@ import { Query } from '../models/query';
 })
 export class CallsService {
   constructor(private http: HttpClient) {}
+  private callListCount = 0;
 
   getCalls(query: Query): Observable<ICallDTO[]> {
     let params = new HttpParams();

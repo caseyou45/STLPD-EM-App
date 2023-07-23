@@ -1,14 +1,15 @@
 <div class="card">
     <div id="control" class="control">
         <div class="date">
-            <span>From:</span>
+            <button (click)="setPastDay()" [class.selected]="selectedDateOption === 'pastDay'">Past Day</button>
+            <button (click)="setPastWeek()" [class.selected]="selectedDateOption === 'pastWeek'">Past Week</button>
+            <button (click)="setPastMonth()" [class.selected]="selectedDateOption === 'pastMonth'">Past Month</button>
+            <!-- <span>From:</span>
             <input type="date" [(ngModel)]="query.dateStart" name="startDate" (ngModelChange)="setDates()">
 
             <span>To:</span>
 
-            <input type="date" [(ngModel)]="query.dateEnd" name="endDate" (ngModelChange)="setDates()">
-
-            <!-- <button id="dateSet" name="dateSet" (click)="setDates()">Set Date</button>-->
+            <input type="date" [(ngModel)]="query.dateEnd" name="endDate" (ngModelChange)="setDates()"> -->
         </div>
 
         <div class="sort">
@@ -17,6 +18,8 @@
                 <option value="datetime">Date / Time</option>
                 <option value="typeCount">Type Count</option>
                 <option value="locationCount">Location Count</option>
+                <option value="neighborhoodCount">Neighborhood Count</option>
+                <option value="neighborhood">Neighborhood A-Z</option>
                 <option value="location">Location A-Z</option>
                 <option value="type">Type A-Z</option>
             </select>
@@ -24,11 +27,12 @@
             <button id="sortDirection" (click)="toggleSortDirection()">
                 <span>{{ getArrowIcon() }}</span>
             </button>
-            <!-- <button id="sortSet" name="sortSet" (click)="setSort()">Sort</button> -->
         </div>
 
         <div class="filter">
-            <span>Filter:</span>
+            <p class="callCount">{{callCount}} call{{ callCount> 1 || callCount == 0? 's' : '' }} being
+                displayed
+            </p>
             <div class="typeContainer">
                 <ng-container *ngIf="query.type">
                     <button id="typeMainButton" class="type buttonBox" (click)="clearType()">{{ query.type
@@ -49,7 +53,8 @@
 
     </div>
     <div class="buttons">
-        <!-- <button id="go" class="buttonBox" (click)="go()">Go</button> -->
         <button id="reset" class="buttonBox" (click)="resetQuery()">Reset</button>
     </div>
+
+
 </div>

@@ -58,6 +58,8 @@ button {
 }
 
 
+
+
 .type::before {
     background-image: url('../../assets/images/phone.png');
 }
@@ -69,7 +71,7 @@ button {
 
 
 .neighborhood::before {
-    background-image: url('../../assets/images/street.png');
+    background-image: url('../../assets/images/neighborhood.png');
 }
 
 .type::after,

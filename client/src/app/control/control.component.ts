@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentInit, Component, OnInit } from '@angular/core';
 import { QueryService } from '../query.service';
 import { Query } from 'src/models/query';
-import { LoadingService } from '../loading.service';
+import { CallsService } from '../calls.service';
+import { ICallDTO } from 'src/models/call';
+import { CallCountService } from '../callsCount.service';
 
 @Component({
   selector: 'control',
@@ -18,10 +20,13 @@ export class ControlComponent implements OnInit {
     dateEnd: '',
     neighborhood: '',
   };
+  selectedDateOption: string = 'pastDay';
+  callCount: number = 0;
 
   constructor(
     private queryService: QueryService,
-    private loadingService: LoadingService
+    private callsService: CallsService,
+    private callCountService: CallCountService
   ) {}
 
   ngOnInit() {
@@ -29,9 +34,13 @@ export class ControlComponent implements OnInit {
       this.query = query;
     });
 
+    this.callCountService.callCount$.subscribe((callCount) => {
+      this.callCount = callCount;
+    });
+
     this.initializeDates();
     this.initializeSort();
-    this.queryService.updateQuery(this.query);
+    this.updateQuery();
   }
 
   initializeDates() {
@@ -53,38 +62,72 @@ export class ControlComponent implements OnInit {
     this.initializeSort();
     this.clearType();
     this.clearLocation();
-    this.queryService.updateQuery(this.query);
+    this.updateQuery();
   }
 
   clearType() {
     this.query.type = '';
-    this.queryService.updateQuery(this.query);
+    this.updateQuery();
   }
 
   clearLocation() {
     this.query.location = '';
-    this.queryService.updateQuery(this.query);
+    this.updateQuery();
   }
 
   clearNeighborhood() {
     this.query.neighborhood = '';
-    this.queryService.updateQuery(this.query);
+    this.updateQuery();
   }
 
   setDates() {
-    this.queryService.updateQuery(this.query);
+    this.updateQuery();
   }
 
   setSort() {
-    this.queryService.updateQuery(this.query);
+    this.updateQuery();
   }
 
   toggleSortDirection() {
     this.query.direction = this.query.direction === 'asc' ? 'desc' : 'asc';
-    this.queryService.updateQuery(this.query);
+    this.updateQuery();
   }
 
   getArrowIcon(): string {
     return this.query.direction === 'asc' ? '↑' : '↓';
+  }
+
+  setDateRange(days: number, months: number = 0) {
+    const currentDate = new Date();
+    this.query.dateEnd = currentDate.toISOString().slice(0, 10);
+
+    const pastDate = new Date(currentDate);
+    pastDate.setDate(currentDate.getDate() - days);
+    pastDate.setMonth(currentDate.getMonth() - months);
+
+    this.query.dateStart = pastDate.toISOString().slice(0, 10);
+    this.updateQuery();
+  }
+
+  setPastDay() {
+    this.setDateRange(1);
+    this.selectedDateOption = 'pastDay';
+    this.updateQuery();
+  }
+
+  setPastWeek() {
+    this.setDateRange(7);
+    this.selectedDateOption = 'pastWeek';
+    this.updateQuery();
+  }
+
+  setPastMonth() {
+    this.setDateRange(0, 1);
+    this.selectedDateOption = 'pastMonth';
+    this.updateQuery();
+  }
+
+  updateQuery() {
+    this.queryService.updateQuery(this.query);
   }
 }

@@ -11,7 +11,7 @@ import { ICallDTO } from '../../models/call';
 import { QueryService } from '../query.service';
 import { Query } from 'src/models/query';
 import { Input } from '@angular/core';
-import { LoadingService } from '../loading.service';
+import { CallCountService } from '../callsCount.service';
 
 @Component({
   selector: 'calls',
@@ -34,7 +34,7 @@ export class CallsComponent implements OnInit, OnChanges {
   constructor(
     private queryService: QueryService,
     private callsService: CallsService,
-    private loadingService: LoadingService
+    private callCountService: CallCountService
   ) {}
 
   ngOnInit(): void {
@@ -52,6 +52,7 @@ export class CallsComponent implements OnInit, OnChanges {
   fetchCalls(): void {
     this.callsService.getCalls(this.query).subscribe((data: ICallDTO[]) => {
       this.calls = data;
+      this.callCountService.updateCallCount(this.calls.length);
     });
   }
 
