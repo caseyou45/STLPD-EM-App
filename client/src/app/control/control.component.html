@@ -16,12 +16,12 @@
             <span>Sort:</span>
             <select id="sortCategory" [(ngModel)]="query.sort" name="selectedSortCategory" (ngModelChange)="setSort()">
                 <option value="datetime">Date / Time</option>
-                <option value="typeCount">Type Count</option>
-                <option value="locationCount">Location Count</option>
-                <option value="neighborhoodCount">Neighborhood Count</option>
-                <option value="neighborhood">Neighborhood A-Z</option>
-                <option value="location">Location A-Z</option>
-                <option value="type">Type A-Z</option>
+                <option value="locationCount" [disabled]="query.location">Location Count</option>
+                <option value="location" [disabled]="query.location"> Location A-Z</option>
+                <option value="neighborhoodCount" [disabled]="query.neighborhood">Neighborhood Count</option>
+                <option value="neighborhood" [disabled]="query.neighborhood">Neighborhood A-Z</option>
+                <option value="typeCount" [disabled]="query.type">Type Count</option>
+                <option value="type" [disabled]="query.type">Type A-Z</option>
             </select>
 
             <button id="sortDirection" (click)="toggleSortDirection()">

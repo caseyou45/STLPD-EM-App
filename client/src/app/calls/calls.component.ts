@@ -22,8 +22,8 @@ export class CallsComponent implements OnInit, OnChanges {
   @Input() query: Query = {
     location: '',
     type: '',
-    sort: '',
-    direction: '',
+    sort: 'datetime',
+    direction: 'dsc',
     dateStart: '',
     dateEnd: '',
     neighborhood: '',
@@ -37,11 +37,23 @@ export class CallsComponent implements OnInit, OnChanges {
     private callCountService: CallCountService
   ) {}
 
+  setDateRange(days: number, months: number = 0) {
+    const currentDate = new Date();
+    this.query.dateEnd = currentDate.toISOString().slice(0, 10);
+
+    const pastDate = new Date(currentDate);
+    pastDate.setDate(currentDate.getDate() - days);
+    pastDate.setMonth(currentDate.getMonth() - months);
+
+    this.query.dateStart = pastDate.toISOString().slice(0, 10);
+  }
+
   ngOnInit(): void {
     this.queryService.query$.subscribe((query) => {
       this.query = query;
       this.fetchCalls();
     });
+    this.setDateRange(1);
     this.fetchCalls();
   }
 
@@ -52,7 +64,8 @@ export class CallsComponent implements OnInit, OnChanges {
   fetchCalls(): void {
     this.callsService.getCalls(this.query).subscribe((data: ICallDTO[]) => {
       this.calls = data;
-      this.callCountService.updateCallCount(this.calls.length);
+
+      this.callCountService.updateCallCount(data.length);
     });
   }
 

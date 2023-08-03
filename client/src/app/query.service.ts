@@ -11,6 +11,15 @@ export class QueryService {
   query$ = this.query.asObservable();
 
   updateQuery(query: Query) {
+    if (query.type && query.sort.includes('type')) {
+      query.sort = 'datetime';
+    }
+    if (query.location && query.sort.includes('location')) {
+      query.sort = 'datetime';
+    }
+    if (query.neighborhood && query.sort.includes('neighborhood')) {
+      query.sort = 'datetime';
+    }
     this.query.next({ ...query });
   }
 }
